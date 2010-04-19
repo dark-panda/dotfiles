@@ -1,0 +1,11 @@
+#!/bin/sh
+DIRNAME=$(dirname $0)
+for i in $0.d/*; do
+	if [ -x $i ]; then
+		${i}
+		RETVAL=$?
+		[ $RETVAL -ne 0 ] && exit $RETVAL
+	fi
+done
+
+exit 0

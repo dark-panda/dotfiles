@@ -1,0 +1,24 @@
+[color]
+	ui = true
+[filemerge]
+	executable = vimdiff
+[merge]
+	tool = vimdiff
+[core]
+	whitespace = error,indent-with-non-tab,trailing-space,cr-at-eol,-blank-at-eof
+	excludesfile = .gitignore.local
+[color "diff"]
+	whitespace = red reverse
+[user]
+	name  = J Smith
+	email = dark.panda@gmail.com
+[gui]
+	fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+[alias]
+	stat     = status
+	co       = checkout
+	ws       = diff-index --color --check HEAD
+	dcommit  = svn dcommit
+	log-full = log --name-status
+	svn-diff = diff remotes/git-svn
