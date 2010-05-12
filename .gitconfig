@@ -20,5 +20,8 @@
 	co       = checkout
 	ws       = diff-index --color --check HEAD
 	dcommit  = svn dcommit
-	log-full = log --name-status
+	f-log    = log --name-status
+	log-full = f-log
+	q-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	log-quick = q-log
 	svn-diff = diff remotes/git-svn
