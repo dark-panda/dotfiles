@@ -49,6 +49,12 @@ function reset-terminal() {
 	echo '\033c'
 }
 
+function flush-dns() {
+	if [[ $OSTYPE = darwin* ]]; then
+		dscacheutil -flushcache
+	fi
+}
+
 
 
 
