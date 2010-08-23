@@ -24,3 +24,7 @@
 	f-log    = log --name-status
 	q-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	svn-diff = diff remotes/git-svn
+	x        = !sh -c 'gitx'
+	grep-all = !sh -c 'git rev-list --all | xargs git grep $1' -
+	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
+
