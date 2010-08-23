@@ -7,6 +7,7 @@
 [core]
 	whitespace = error,indent-with-non-tab,trailing-space,cr-at-eol,-blank-at-eof
 	excludesfile = .gitignore.local
+	editor = /usr/bin/vim
 [color "diff"]
 	whitespace = red reverse
 [user]
