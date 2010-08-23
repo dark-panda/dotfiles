@@ -59,7 +59,9 @@ unsetopt menu_complete
 zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
-zmodload -ap zsh/mapfile mapfile
+if [ -z "$mapfile" ]; then
+	zmodload -ap zsh/mapfile mapfile
+fi
 
 alias ll='ls -l'
 alias dir='ls'
@@ -142,4 +144,6 @@ if [[ $? = 0 ]]; then
 else
 	PROMPT=$'%{$fg[white]%}[%n@%{$fg[$HOST_COLOR]%}%m%{$fg[white]%} %c]%{$reset_color%}%# '
 fi
+
+export JZSHRC=1
 
