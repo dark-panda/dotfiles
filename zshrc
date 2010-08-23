@@ -71,7 +71,7 @@ alias mv='mv -i'
 alias rm='rm -i'
 alias grep='grep --color=auto'
 
-{ which colordiff        >& /dev/null } && alias diff='colordiff'
+{ which colordiff >& /dev/null } && alias diff='colordiff'
 { locate macros/less.vim >& /dev/null } && alias vless="vim -u `locate macros/less.vim | head -n1`"
 
 
@@ -136,7 +136,7 @@ if [[ $? = 0 ]]; then
 #	zstyle ':vcs_info:*'              disable-patterns  "$HOME/.git"
 
 	precmd() {                                                   
-	    psvar=()
+		psvar=()
 		vcs_info
 		[[ -n $vcs_info_msg_0_ ]] && psvar[1]=" $vcs_info_msg_0_"
 	}
