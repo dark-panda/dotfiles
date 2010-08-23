@@ -43,6 +43,10 @@ function bak() {
 	cp "$1" "$1~"
 }
 
+function unbak() {
+	cp "$1~" "$1"
+}
+
 function reset-terminal() {
 	echo '\033c'
 }
