@@ -1,5 +1,5 @@
 
-export PATH=$PATH:$HOME/bin:/sbin:/usr/sbin:/usr/local/sbin
+export PATH=$PATH:$HOME/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin
 export PAGER="/usr/bin/less -S"
 export PSQL_EDITOR='vim -c "set ft=sql"'
 export SVN_EDITOR=/usr/bin/vim
