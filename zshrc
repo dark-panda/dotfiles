@@ -85,6 +85,7 @@ if [[ $OSTYPE = darwin* ]]; then
 	{ which gsha1sum >& /dev/null } && alias shasum='gsha1sum'
 	{ which gdu      >& /dev/null } && alias du='gdu'
 	{ which gtail    >& /dev/null } && alias tail='gtail'
+	{ which ghead    >& /dev/null } && alias head='ghead'
 	{ which gln      >& /dev/null } && alias ln='gln'
 fi
 
