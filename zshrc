@@ -141,7 +141,7 @@ if [[ $? = 0 ]]; then
 		[[ -n $vcs_info_msg_0_ ]] && psvar[1]=" $vcs_info_msg_0_"
 	}
 
-	PROMPT=$'%F{white}[%n@%f%F{green}%m%f %c]${vcs_info_msg_0_}%b%F%f%# '
+	PROMPT=$'%F{white}[%n@%f%F{$HOST_COLOR}%m%f %c]${vcs_info_msg_0_}%b%F%f%# '
 else
 	PROMPT=$'%{$fg[white]%}[%n@%{$fg[$HOST_COLOR]%}%m%{$fg[white]%} %c]%{$reset_color%}%# '
 fi
