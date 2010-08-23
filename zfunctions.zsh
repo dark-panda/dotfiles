@@ -81,3 +81,8 @@ function bunny() {
 	echo "(\\\")\\\")"
 }
 
+function confused-bunny() {
+	echo "(\\ /)"
+	echo "(O.o)"
+	echo "(> <)"
+}
