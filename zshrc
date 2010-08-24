@@ -71,7 +71,7 @@ alias rm='rm -i'
 alias grep='grep --color=auto'
 
 { which colordiff >& /dev/null } && alias diff='colordiff'
-{ locate macros/less.vim >& /dev/null } && alias vless="vim -u `locate macros/less.vim | head -n1`"
+{ locate macros/less.sh >& /dev/null } && alias vless="`locate macros/less.sh | head -n1`"
 
 
 # GNU overrides for OSX:
