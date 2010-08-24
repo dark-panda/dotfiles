@@ -54,7 +54,6 @@ setopt rec_exact
 setopt share_history
 setopt prompt_subst
 unsetopt bg_nice
-unsetopt menu_complete
 
 zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
