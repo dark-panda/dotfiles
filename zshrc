@@ -132,7 +132,6 @@ if [[ $? = 0 ]]; then
 	zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat     '%b%F{1}:%F{3}%r'
 	zstyle ':vcs_info:*'              check-for-changes true
 	zstyle ':vcs_info:*'              get-revision      true
-#	zstyle ':vcs_info:*'              disable-patterns  "$HOME/.git"
 
 	precmd() {                                                   
 		psvar=()
