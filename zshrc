@@ -108,7 +108,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 # default color for the hostname:
-HOST_COLOR="magenta"
+HOST_COLOR="green"
 case $HOST in
 	*.zoocasa.com|*.i.internal)
 		HOST_COLOR="cyan"
@@ -116,10 +116,6 @@ case $HOST in
 
 	zooburg*)
 		HOST_COLOR="yellow"
-	;;
-
-	gobstopper*)
-		HOST_COLOR="green"
 	;;
 esac
 
