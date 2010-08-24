@@ -26,7 +26,7 @@ setopt auto_list
 setopt auto_param_slash
 setopt auto_pushd
 setopt auto_resume
-setopt cdabl_evars
+setopt cdable_vars
 setopt correct
 setopt correct_all
 setopt extended_glob
