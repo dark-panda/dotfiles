@@ -42,7 +42,6 @@ setopt hist_save_no_dups
 setopt inc_append_history
 setopt long_list_jobs
 setopt mail_warning
-setopt menu_complete
 setopt no_hist_beep
 setopt no_beep
 setopt notify
@@ -54,6 +53,7 @@ setopt rec_exact
 setopt share_history
 setopt prompt_subst
 unsetopt bg_nice
+unsetopt menu_complete
 
 zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
