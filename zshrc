@@ -110,7 +110,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # default color for the hostname:
 HOST_COLOR="green"
 case $HOST in
-	*.zoocasa.com|*.i.internal)
+	*.zoocasa.com|*.i.internal|dhcp*)
 		HOST_COLOR="cyan"
 	;;
 
