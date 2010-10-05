@@ -21,8 +21,10 @@
 	co       = checkout
 	ws       = diff-index --color --check HEAD
 	dcommit  = svn dcommit
-	f-log    = log --name-status
-	q-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	p-log    = log --patch
+	f-log    = whatchanged --graph --parents
+	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	svn-diff = diff remotes/git-svn
 	x        = !sh -c 'gitx'
 	grep-all = !sh -c 'git rev-list --all | xargs git grep $1' -
