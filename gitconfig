@@ -1,3 +1,6 @@
+[sendmail]
+	multiedit = true
+	suppresscc = self
 [color]
 	ui = true
 [filemerge]
