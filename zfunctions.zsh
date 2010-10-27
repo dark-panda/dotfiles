@@ -86,3 +86,10 @@ function confused-bunny() {
 	echo "(O.o)"
 	echo "(> <)"
 }
+
+function ipod() {
+	echo "╔════╗ ♪"
+	echo "║ ███║ ♫"
+	echo "║ (●)║ ♫"
+	echo "╚════╝♪♪"
+}
