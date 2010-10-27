@@ -24,7 +24,7 @@
 	co       = checkout
 	ws       = diff-index --color --check HEAD
 	dcommit  = svn dcommit
-	p-log    = log --patch
+	p-log    = log --patch --parents
 	f-log    = whatchanged --graph --parents
 	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
 	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
