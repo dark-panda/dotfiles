@@ -4,6 +4,8 @@
 # functions, options, key bindings, etc.
 #
 
+[ -r ~/.zshrc.local.zsh ] && source ~/.zshrc.local.zsh
+
 autoload -U compinit
 compinit
 
@@ -12,7 +14,9 @@ autoload -U zmv
 autoload -U colors
 colors
 
-source ~/.zfunctions.zsh
+[ -r ~/.zfunctions.zsh ] && source ~/.zfunctions.zsh
+[ -r ~/.zfunctions.local.zsh ] && source ~/.zfunctions.local.zsh
+
 
 HISTSIZE=2000
 SAVEHIST=2000
