@@ -33,5 +33,6 @@
 	grep-all = !sh -c 'git rev-list --all | xargs git grep \"${1}\"' -
 	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
 	up       = !sh -c 'git pull --rebase $@' -
+	cp       = cherry-pick
 [pack]
 	threads = 0
