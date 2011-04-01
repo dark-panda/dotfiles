@@ -5,7 +5,7 @@ export PSQL_EDITOR='vim -c "set ft=sql"'
 export SVN_EDITOR='vim -c "set wrap linebreak textwidth=72"'
 
 # postgres
-export PATH=/opt/local/lib/postgresql83/bin:$PATH
+export PATH=/opt/local/lib/postgresql90/bin:$PATH
 
 # macports
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
