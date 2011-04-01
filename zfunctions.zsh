@@ -93,3 +93,7 @@ function ipod() {
 	echo "║ (●)║ ♫"
 	echo "╚════╝♪♪"
 }
+
+function pokemon() {
+  echo "(づ｡◕‿‿◕｡)づ"
+}
