@@ -63,7 +63,7 @@ zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
 if [ -z "$mapfile" ]; then
-	zmodload -ap zsh/mapfile mapfile
+  zmodload -ap zsh/mapfile mapfile
 fi
 
 alias ll='ls -l'
@@ -80,17 +80,17 @@ alias grep='grep --color=auto'
 
 # GNU overrides for OSX:
 if [[ $OSTYPE = darwin* ]]; then
-	{ which gcp      >& /dev/null } && alias cp='gcp -i'
-	{ which gmv      >& /dev/null } && alias mv='gmv -i'
-	{ which grm       >& /dev/null } && alias rm='grm -i'
-	{ which gls      >& /dev/null } && alias ls='gls --color=auto'
-	{ which gmd5sum  >& /dev/null } && alias md5sum='gmd5sum'
-	{ which gsha1sum >& /dev/null } && alias shasum='gsha1sum'
-	{ which gdu      >& /dev/null } && alias du='gdu'
-	{ which gtail    >& /dev/null } && alias tail='gtail'
-	{ which ghead    >& /dev/null } && alias head='ghead'
-	{ which gln      >& /dev/null } && alias ln='gln'
-	{ which gmkdir   >& /dev/null } && alias mkdir='gmkdir'
+  { which gcp      >& /dev/null } && alias cp='gcp -i'
+  { which gmv      >& /dev/null } && alias mv='gmv -i'
+  { which grm       >& /dev/null } && alias rm='grm -i'
+  { which gls      >& /dev/null } && alias ls='gls --color=auto'
+  { which gmd5sum  >& /dev/null } && alias md5sum='gmd5sum'
+  { which gsha1sum >& /dev/null } && alias shasum='gsha1sum'
+  { which gdu      >& /dev/null } && alias du='gdu'
+  { which gtail    >& /dev/null } && alias tail='gtail'
+  { which ghead    >& /dev/null } && alias head='ghead'
+  { which gln      >& /dev/null } && alias ln='gln'
+  { which gmkdir   >& /dev/null } && alias mkdir='gmkdir'
 fi
 
 bindkey "^?" backward-delete-char
@@ -107,6 +107,7 @@ bindkey '^[[F' end-of-line
 bindkey '\e[3~' delete-char
 bindkey '\e[1;5C' forward-word
 bindkey '\e[1;5D' backward-word
+bindkey '^B' delete-word
 
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -115,34 +116,34 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # default color for the hostname:
 HOST_COLOR="green"
 case $HOST in
-	*.zoocasa.com|*.i.internal|dhcp*)
-		HOST_COLOR="cyan"
-	;;
+  *.zoocasa.com|*.i.internal|dhcp*)
+    HOST_COLOR="cyan"
+  ;;
 
-	zooburg*)
-		HOST_COLOR="yellow"
-	;;
+  zooburg*)
+    HOST_COLOR="yellow"
+  ;;
 esac
 
 function-exists vcs_info
 if [[ $? = 0 ]]; then
-	zstyle ':vcs_info:*'              enable            git svn svk cvs
-	zstyle ':vcs_info:*'              disable-patterns "$HOME(|/.*|/bin)"
-	zstyle ':vcs_info:*'              actionformats    ' (%F{red}%s%f %F{cyan}%b%f%F{yellow}|%F{1}%a%F{cyan} %B%F{yellow}%c%F{red}%u%%b)'
-	zstyle ':vcs_info:*'              formats          ' (%F{red}%s%f %F{cyan}%b%f)'
-	zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat     '%b%F{1}:%F{3}%r'
-	zstyle ':vcs_info:*'              check-for-changes true
-	zstyle ':vcs_info:*'              get-revision      true
+  zstyle ':vcs_info:*'              enable            git svn svk cvs
+  zstyle ':vcs_info:*'              disable-patterns "$HOME(|/.*|/bin)"
+  zstyle ':vcs_info:*'              actionformats    ' (%F{red}%s%f %F{cyan}%b%f%F{yellow}|%F{1}%a%F{cyan} %B%F{yellow}%c%F{red}%u%%b)'
+  zstyle ':vcs_info:*'              formats          ' (%F{red}%s%f %F{cyan}%b%f)'
+  zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat     '%b%F{1}:%F{3}%r'
+  zstyle ':vcs_info:*'              check-for-changes true
+  zstyle ':vcs_info:*'              get-revision      true
 
-	precmd() {                                                   
-		psvar=()
-		vcs_info
-		[[ -n $vcs_info_msg_0_ ]] && psvar[1]=" $vcs_info_msg_0_"
-	}
+  precmd() {
+    psvar=()
+    vcs_info
+    [[ -n $vcs_info_msg_0_ ]] && psvar[1]=" $vcs_info_msg_0_"
+  }
 
-	PROMPT=$'%F{white}[%n@%f%F{$HOST_COLOR}%m%f %c]${vcs_info_msg_0_}%b%F%f%# '
+  PROMPT=$'%F{white}[%n@%f%F{$HOST_COLOR}%m%f %c]${vcs_info_msg_0_}%b%F%f%# '
 else
-	PROMPT=$'%{$fg[white]%}[%n@%{$fg[$HOST_COLOR]%}%m%{$fg[white]%} %c]%{$reset_color%}%# '
+  PROMPT=$'%{$fg[white]%}[%n@%{$fg[$HOST_COLOR]%}%m%{$fg[white]%} %c]%{$reset_color%}%# '
 fi
 
 export JZSHRC=1
