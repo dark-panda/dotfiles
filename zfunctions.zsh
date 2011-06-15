@@ -40,11 +40,15 @@ if [[ $OSTYPE = darwin* ]]; then
 fi
 
 function bak() {
-	cp "$1" "$1~"
+  for i in $@; do
+    cp "${i}" "${i}~"
+  done
 }
 
 function unbak() {
-	cp "$1~" "$1"
+  for i in $@; do
+    cp "${i}~" "${i}"
+  done
 }
 
 function reset-terminal() {
