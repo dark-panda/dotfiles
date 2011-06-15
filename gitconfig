@@ -1,38 +1,54 @@
 [sendmail]
-	multiedit = true
-	suppresscc = self
+  multiedit = true
+  suppresscc = self
 [color]
-	ui = true
+  ui = true
 [filemerge]
-	executable = vimdiff
+  executable = vimdiff
 [merge]
-	tool = vimdiff
+  tool = vimdiff
 [core]
-	whitespace = error,indent-with-non-tab,trailing-space,cr-at-eol,-blank-at-eof
-	excludesfile = .gitignore.local
-	editor = /usr/bin/vim
+  whitespace = error,trailing-space,cr-at-eol,-blank-at-eof,tab-in-indent
+  excludesfile = .gitignore.local
+  editor = /usr/bin/vim
 [color "diff"]
-	whitespace = red reverse
+  whitespace = red reverse
 [user]
-	name  = J Smith
-	email = dark.panda@gmail.com
+  name  = J Smith
+  email = dark.panda@gmail.com
 [gui]
-	fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+  fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
 [alias]
-	stat     = status
-	co       = checkout
-	ws       = diff-index --color --check HEAD
-	dcommit  = svn dcommit
-	p-log    = log --patch --parents
-	f-log    = whatchanged --graph --parents
-	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-	svn-diff = diff remotes/git-svn
-	x        = !sh -c 'gitx'
-	grep-all = !sh -c 'git rev-list --all | xargs git grep \"${1}\"' -
-	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
-	up       = !sh -c 'git pull --rebase $@' -
-	cp       = cherry-pick
+  stat     = status
+  co       = checkout
+  ws       = diff-index --color --check HEAD
+  dcommit  = svn dcommit
+  p-log    = log --patch --parents
+  f-log    = whatchanged --graph --parents
+  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  c-log    = !sh -c 'git q-log --cherry HEAD..$@' -
+  svn-diff = diff remotes/git-svn
+  x        = !sh -c 'gitx'
+  grep-all = !sh -c 'git rev-list --all | xargs git grep \"${1}\"' -
+  whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
+  up       = !sh -c 'git pull --rebase $@' -
+  cp       = cherry-pick
+  commit   = commit --verbose
+  igrep    = grep --no-index
+  commit-amend = commit --amend -C HEAD
+  ca       = !sh -c 'git commit-amend $@' -
 [pack]
-	threads = 0
+  threads = 0
+[branch]
+  autosetuprebase = always
+[hooks "pre-commit"]
+  enabled = true
+  whitespace-rb = true
+[hooks "post-checkout"]
+  enabled = true
+  update-submodules-rb = true
+[hooks "post-merge"]
+  enabled = true
+  update-submodules-rb = true
