@@ -26,9 +26,10 @@
   dcommit  = svn dcommit
   p-log    = log --patch --parents
   f-log    = whatchanged --graph --parents
-  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-  c-log    = !sh -c 'git q-log --cherry HEAD..$@' -
+  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+  c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+  s-log    = stash list --pretty=format:'%Cred%gd - %h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   svn-diff = diff remotes/git-svn
   x        = !sh -c 'gitx'
   grep-all = !sh -c 'git rev-list --all | xargs git grep \"${1}\"' -
