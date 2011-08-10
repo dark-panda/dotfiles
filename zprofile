@@ -4,12 +4,9 @@ export PAGER="/usr/bin/less -S"
 export PSQL_EDITOR='vim -c "set ft=sql"'
 export SVN_EDITOR='vim -c "set wrap linebreak textwidth=72"'
 
-
-
 # macports
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=$MANPATH:/opt/local/share/man
-export PYTHONPATH=/opt/local/lib/python2.6/site-packages:${PYTHONPATH}
 
 # rubygems
 export GEM_HOME=$HOME/.gem
