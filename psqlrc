@@ -1,1 +1,7 @@
 \pset pager always
+
+\set PROMPT1 '%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
+\set PROMPT2 '%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
+
+--\set PROMPT1 '%/@%`hostname -s`%R%# '
+--\set PROMPT2 '%/@%`hostname -s`%R%# '
