@@ -5,6 +5,7 @@
 #
 
 [ -r ~/.zshrc.local.zsh ] && source ~/.zshrc.local.zsh
+[ -r ~/.zprofile -a -z "$JZPROFILE" ] && source ~/.zprofile
 
 autoload -U compinit
 compinit
