@@ -92,6 +92,7 @@ if [[ $OSTYPE = darwin* ]]; then
   { which ghead    >& /dev/null } && alias head='ghead'
   { which gln      >& /dev/null } && alias ln='gln'
   { which gmkdir   >& /dev/null } && alias mkdir='gmkdir'
+  { which gtac     >& /dev/null } && alias tac='gtac'
 fi
 
 bindkey "^?" backward-delete-char
