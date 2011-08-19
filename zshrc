@@ -83,7 +83,7 @@ alias grep='grep --color=auto'
 if [[ $OSTYPE = darwin* ]]; then
   { which gcp      >& /dev/null } && alias cp='gcp -i'
   { which gmv      >& /dev/null } && alias mv='gmv -i'
-  { which grm       >& /dev/null } && alias rm='grm -i'
+  { which grm      >& /dev/null } && alias rm='grm -i'
   { which gls      >& /dev/null } && alias ls='gls --color=auto'
   { which gmd5sum  >& /dev/null } && alias md5sum='gmd5sum'
   { which gsha1sum >& /dev/null } && alias shasum='gsha1sum'
