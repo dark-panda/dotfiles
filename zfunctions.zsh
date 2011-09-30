@@ -105,3 +105,8 @@ function pokemon() {
 function lol-wut() {
   echo "█▄▄ ███ █▄▄ █▄█▄█ █▄█ ▀█▀"
 }
+
+function table-flip() {
+  echo "(╯°□°）╯︵ $1"
+}
+
