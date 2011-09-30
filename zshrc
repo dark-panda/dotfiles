@@ -4,7 +4,6 @@
 # functions, options, key bindings, etc.
 #
 
-[ -r ~/.zshrc.local.zsh ] && source ~/.zshrc.local.zsh
 [ -r ~/.zprofile -a -z "$JZPROFILE" ] && source ~/.zprofile
 
 autoload -U compinit
@@ -149,4 +148,6 @@ else
 fi
 
 export JZSHRC=1
+
+[ -r ~/.zshrc.local.zsh ] && source ~/.zshrc.local.zsh
 
