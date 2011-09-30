@@ -77,23 +77,6 @@ alias grep='grep --color=auto'
 { which colordiff >& /dev/null } && alias diff='colordiff'
 { locate macros/less.sh >& /dev/null } && alias vless="`locate macros/less.sh | head -n1`"
 
-
-# GNU overrides for OSX:
-if [[ $OSTYPE = darwin* ]]; then
-  { which gcp      >& /dev/null } && alias cp='gcp -i'
-  { which gmv      >& /dev/null } && alias mv='gmv -i'
-  { which grm      >& /dev/null } && alias rm='grm -i'
-  { which gls      >& /dev/null } && alias ls='gls --color=auto'
-  { which gmd5sum  >& /dev/null } && alias md5sum='gmd5sum'
-  { which gsha1sum >& /dev/null } && alias shasum='gsha1sum'
-  { which gdu      >& /dev/null } && alias du='gdu'
-  { which gtail    >& /dev/null } && alias tail='gtail'
-  { which ghead    >& /dev/null } && alias head='ghead'
-  { which gln      >& /dev/null } && alias ln='gln'
-  { which gmkdir   >& /dev/null } && alias mkdir='gmkdir'
-  { which gtac     >& /dev/null } && alias tac='gtac'
-fi
-
 bindkey "^?" backward-delete-char
 bindkey "^r" history-incremental-search-backward
 bindkey ' ' magic-space    # also do history expansion on space
