@@ -96,6 +96,7 @@ bindkey '^B' delete-word
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu select=2
 
 # default color for the hostname:
 HOST_COLOR="green"
