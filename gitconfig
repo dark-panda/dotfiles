@@ -1,4 +1,4 @@
-[sendmail]
+[sendemail]
   multiedit = true
   suppresscc = self
 [color]
