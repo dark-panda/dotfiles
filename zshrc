@@ -73,6 +73,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 alias grep='grep --color=auto'
+alias vi='vim'
 
 { which colordiff >& /dev/null } && alias diff='colordiff'
 { locate macros/less.sh >& /dev/null } && alias vless="`locate macros/less.sh | head -n1`"
