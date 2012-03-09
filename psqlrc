@@ -1,3 +1,5 @@
+\set HISTSIZE 2000
+
 \pset pager always
 
 \set PROMPT1 '%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
