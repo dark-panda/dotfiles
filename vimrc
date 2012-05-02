@@ -70,6 +70,7 @@ let &guicursor = &guicursor . ",a:blinkon0"
 
 " for pgdump files:
 au BufNewFile,BufRead *.pgdump setf sql
+au BufNewFile,BufRead *.pgsql  setf sql
 au BufNewFile,BufRead *.less   setf less
 au BufNewFile,BufRead *.scss   setf css
 au BufNewFile,BufRead Gemfile  setf ruby
