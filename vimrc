@@ -95,3 +95,8 @@ endif
 set modeline
 let g:local_vimrc=".vimrc_local"
 set tags+=gems.tags
+
+if filereadable($HOME."/.vimrc.local.vim")
+  source ${HOME}/.vimrc.local.vim
+end
+
