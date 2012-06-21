@@ -110,3 +110,9 @@ function table-flip() {
   echo "(╯°□°）╯︵ $1"
 }
 
+function glasses() {
+  echo "( •_•)"
+  echo "( •_•)>⌐■-■"
+  echo "(⌐■_■)"
+}
+
