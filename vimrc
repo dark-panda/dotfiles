@@ -74,6 +74,7 @@ au BufNewFile,BufRead *.pgsql  setf sql
 au BufNewFile,BufRead *.less   setf less
 au BufNewFile,BufRead *.scss   setf css
 au BufNewFile,BufRead Gemfile  setf ruby
+au BufNewFile,BufRead *.coffee  setf coffee
 au BufNewFile,BufRead *.jst    let b:eruby_subtype = "js" | setf eruby
 
 " Append modeline after last line in buffer.
