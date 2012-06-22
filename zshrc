@@ -101,13 +101,13 @@ zstyle ':completion:*' menu select=2
 
 # default color for the hostname:
 HOST_COLOR="green"
+if [[ -n "$SSH_CLIENT" ]]; then
+  HOST_COLOR="yellow"
+fi
+
 case $HOST in
   *.zoocasa.com|*.i.internal|dhcp*)
     HOST_COLOR="cyan"
-  ;;
-
-  zooburg*)
-    HOST_COLOR="yellow"
   ;;
 esac
 
