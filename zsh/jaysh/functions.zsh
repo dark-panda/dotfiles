@@ -27,18 +27,6 @@ function zoo-diff() {
     =(wget -O - $2 | gsed "s/assets[0-3]/assets/g" | gsed "s/old_trunk/trunk/g" | gsed "s/?[0-9]\+//g")
 }
 
-if [[ $OSTYPE = darwin* ]]; then
-  function growl() {
-    $@
-    RETVAL=$?
-    if [ $RETVAL = 0 ]; then
-      echo ${@} | growlnotify --sticky "SUCCESS"
-    else
-      echo ${@} | growlnotify --sticky "ERROR ($RETVAL)"
-    fi
-  }
-fi
-
 function bak() {
   for i in $@; do
     cp "${i}" "${i}~"
@@ -54,15 +42,6 @@ function unbak() {
 function reset-terminal() {
   echo '\033c'
 }
-
-function flush-dns() {
-  if [[ $OSTYPE = darwin* ]]; then
-    dscacheutil -flushcache
-  fi
-}
-
-
-
 
 
 function butterfly() {
@@ -115,4 +94,3 @@ function glasses() {
   echo "( •_•)>⌐■-■"
   echo "(⌐■_■)"
 }
-

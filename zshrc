@@ -4,7 +4,19 @@
 # functions, options, key bindings, etc.
 #
 
+case $OSTYPE in
+  darwin*)
+    OS_ZSH="darwin"
+  ;;
+
+  linux*)
+    OS_ZSH="linux"
+  ;;
+esac
+
 [ -r ~/.zprofile -a -z "$JZPROFILE" ] && source ~/.zprofile
+[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/profile/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/profile/$OS_ZSH.zsh"
+[ -r ~/".zsh/jaysh/profile/local.zsh" ] && source ~/".zsh/jaysh/profile/local.zsh"
 
 autoload -U compinit
 compinit
@@ -14,9 +26,9 @@ autoload -U zmv
 autoload -U colors
 colors
 
-[ -r ~/.zfunctions.zsh ] && source ~/.zfunctions.zsh
-[ -r ~/.zfunctions.local.zsh ] && source ~/.zfunctions.local.zsh
-
+[ -r ~/".zsh/jaysh/functions.zsh" ] && source ~/".zsh/jaysh/functions.zsh"
+[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/functions/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/functions/$OS_ZSH.zsh"
+[ -r ~/".zsh/jaysh/functions/local.zsh" ] && source ~/".zsh/functions/local.zsh"
 
 HISTSIZE=2000
 SAVEHIST=2000
@@ -134,5 +146,6 @@ fi
 
 export JZSHRC=1
 
-[ -r ~/.zshrc.local.zsh ] && source ~/.zshrc.local.zsh
+[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/rc/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/rc/$OS_ZSH.zsh"
+[ -r ~/".zsh/jaysh/rc/local.zsh" ] && source ~/".zsh/jaysh/rc/local.zsh"
 
