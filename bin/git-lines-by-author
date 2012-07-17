@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ which gxargs >& /dev/null && XARGS=gxargs || XARGS=xargs
+ which guniq >& /dev/null  && UNIQ=guniq || UNIQ=uniq
+
+git ls-files |
+  $XARGS -n1 -d'\n' -i git blame {} |
+  perl -n -e '/\s\((.*?)\s[0-9]{4}/ && print "$1\n"' |
+  sort -f |
+  $UNIQ -c -w3 |
+  sort -r

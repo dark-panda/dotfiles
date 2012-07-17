@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for i in $(git each-branch); do
+  echo $i
+  git c-log $i
+  echo "\n\n"
+done
+

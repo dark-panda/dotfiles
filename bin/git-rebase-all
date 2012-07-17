@@ -1,0 +1,11 @@
+#!/bin/sh
+
+CURRENT_BRANCH=`basename $(git symbolic-ref -q HEAD)`
+
+for i in $(git each-branch); do
+  git co $i
+  git rebase master || exit
+done
+
+git co $CURRENT_BRANCH
+

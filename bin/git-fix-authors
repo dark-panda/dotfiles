@@ -1,0 +1,34 @@
+#!/bin/sh
+
+function help() {
+  echo "Usage: `basename $0` \"what\" \"from\" \"to\" [rev-list]"
+  echo
+  echo "  Where \"what\" can be one of AUTHOR_NAME, AUTHOR_EMAIL,"
+  echo "  AUTHOR_DATE, COMMITTER_NAME, COMMITTER_EMAIL or COMMITTER_DATE."
+  echo
+  echo "  Use the \"from\" and \"to\" arguments to modify the"
+  echo "  field you want to change."
+}
+
+if [[ -z "$@" ]]; then
+  help
+  exit
+fi
+
+[[ -z "$1" ]] && echo '"what" argument required.' && exit 127
+[[ -z "$2" ]] && echo '"from" argument required.' && exit 127
+[[ -z "$3" ]] && echo '"to" argument required.' && exit 127
+
+WHAT="GIT_$1"
+FROM=$2
+TO=$3
+REV_LIST=$4
+
+echo "$WHAT - $FROM => $TO"
+
+git filter-branch -f --env-filter "
+  if [ \"\$$WHAT\" = \"$FROM\" ]; then
+    export $WHAT=\"$TO\";
+  fi
+  " $REV_LIST
+

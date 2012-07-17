@@ -1,0 +1,4 @@
+#!/bin/sh
+
+git cherry $@ -v | grep "^+" | awk '{print $2}' | xargs git show
+

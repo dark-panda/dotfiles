@@ -1,0 +1,6 @@
+#!/bin/sh
+
+for i in $(git for-each-ref --format='%(refname)' refs/heads/ | grep master -v); do
+  basename $i
+done
+

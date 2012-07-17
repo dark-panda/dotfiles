@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'digest/rmd160'
+
+def rd160sum(data)
+  Digest::RMD160.hexdigest(data)
+end
+
+if ARGV.length > 0
+  ARGV.each do |arg|
+    puts "#{rd160sum(File.read(arg))}\t#{arg}"
+  end
+else
+  puts "#{rd160sum($stdin.read)}\t-"
+end
+
