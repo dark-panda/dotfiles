@@ -81,11 +81,15 @@ end
 hostname = __pry_color_ui__(
   Socket.gethostname.split('.').first,
 
-  case Socket.gethostname
-    when /(zoocasa.com|i.internal)$/
-      'cyan'
-    else
-      'green'
+  if ENV['SSH_CLIENT']
+    'yellow'
+  else
+    case Socket.gethostname
+      when /(zoocasa.com|i.internal)$/
+        'cyan'
+      else
+        'green'
+    end
   end
 )
 
