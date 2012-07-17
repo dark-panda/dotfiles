@@ -1,3 +1,5 @@
+# vim: ft=gitconfig
+
 [sendemail]
   multiedit = true
   suppresscc = self

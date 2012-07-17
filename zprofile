@@ -1,4 +1,6 @@
 
+# vim: set ft=zsh:
+
 export JZPROFILE="1"
 export PATH=$PATH:$HOME/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin
 export PAGER="/usr/bin/less -S"
