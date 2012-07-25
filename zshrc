@@ -19,8 +19,6 @@ esac
 [ -r ~/".zsh/jaysh/profile/local.zsh" ] && source ~/".zsh/jaysh/profile/local.zsh"
 
 autoload -U compinit
-compinit
-
 autoload -Uz vcs_info
 autoload -U zmv
 autoload -U colors
@@ -148,4 +146,6 @@ export JZSHRC=1
 
 [[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/rc/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/rc/$OS_ZSH.zsh"
 [ -r ~/".zsh/jaysh/rc/local.zsh" ] && source ~/".zsh/jaysh/rc/local.zsh"
+
+compinit
 
