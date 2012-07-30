@@ -23,6 +23,8 @@
   fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
   default = upstream
+[grep]
+  extendedRegexp = true
 [alias]
   stat     = status
   co       = checkout
