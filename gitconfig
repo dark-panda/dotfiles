@@ -17,7 +17,7 @@
 [color "diff"]
   whitespace = red reverse
 [user]
-  name  = J Smith
+  name = J Smith
   email = dark.panda@gmail.com
 [gui]
   fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
