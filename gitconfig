@@ -57,3 +57,7 @@
 [hooks "post-merge"]
   enabled = true
   update-submodules-rb = true
+[tig]
+  show-date = relative
+  line-graphics = utf8
+  tab-size = 4
