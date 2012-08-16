@@ -85,6 +85,10 @@ alias rm='rm -i'
 alias grep='grep --color=auto'
 alias vi='vim'
 
+# disable autocorrect on some commands
+alias sudo='nocorrect sudo'
+alias git='nocorrect git'
+
 { which colordiff >& /dev/null } && alias diff='colordiff'
 { locate macros/less.sh >& /dev/null } && alias vless="`locate macros/less.sh | head -n1`"
 
