@@ -53,10 +53,6 @@ Pry.config.print = proc { |output, value|
 if defined?(Rails) || ENV['RAILS_ENV']
   rails_env = if defined?(Rails)
     Rails.env.downcase
-
-    #if Rails.respond_to?(:env)
-    #  extend Rails::ConsoleMethods
-    #end
   else
     ENV['RAILS_ENV']
   end
