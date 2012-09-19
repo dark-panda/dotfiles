@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+VERBOSE=0
+DBNAME="template1"
+
+function show-help() {
+  echo "Usage: $0 [-v] [-b]"
+  echo
+  echo "Options:"
+  echo
+  echo " -b - show sizes in bytes"
+  echo " -v - verbose"
+  echo " -d - database to connect to (the default is template1)"
+  echo
+  echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
+  echo "when connecting."
+}
+
+while getopts ":vbp" OPT; do
+  case $OPT in
+    d)
+      DBNAME=$OPTARG
+      ;;
+    b)
+      CMD="bytes"
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    *)
+      show-help
+      exit
+      ;;
+  esac
+done
+
+if [[ $DBNAME == "" ]]; then
+  echo "ERROR: use -d to set a database name"
+  exit 127
+else
+  echo "Connecting to $DBNAME"
+
+  case $CMD in
+    bytes)
+      SQL='
+SELECT
+  datname AS "database",
+  pg_database_size(datname) AS "database size"
+FROM pg_database
+ORDER BY 2 DESC;
+'
+      ;;
+
+    *)
+      SQL='
+SELECT
+  datname as "database",
+  pg_size_pretty(pg_database_size(datname)) AS "database size"
+FROM pg_database
+ORDER BY pg_database_size(datname) DESC;
+'
+      ;;
+  esac
+
+  if [[ $VERBOSE == 1 ]]; then
+    echo $SQL
+  fi
+
+  psql -d $DBNAME -c "$SQL"
+fi
+

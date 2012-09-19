@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+
+VERBOSE=0
+CMD="summary"
+
+function show-help() {
+  echo "Usage: $0 [-v] [-c CMD] DBNAME [... DBNAME]"
+  echo
+  echo "Where CMD is one of"
+  echo
+  echo " summary - buffer contents summary (default)"
+  echo " config - basic buffer configuration"
+  echo " usage - buffer usage distribution"
+  echo
+  echo "Options:"
+  echo
+  echo " -v - verbose"
+  echo
+  echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
+  echo "when connecting."
+}
+
+while getopts ":vhc:" OPT; do
+  case $OPT in
+    d)
+      DBNAME=$OPTARG
+      ;;
+    c)
+      CMD=$OPTARG
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    *)
+      show-help
+      exit
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+if [ $# -eq 0 ]; then
+  show-help
+  exit
+fi
+
+for DBNAME in $@; do
+  echo "Connecting to $DBNAME"
+
+  case $CMD in
+    summary)
+      SQL="
+SELECT
+  setting AS shared_buffers,
+  pg_size_pretty((SELECT setting FROM pg_settings WHERE name='block_size')::int8 * setting::int8) AS size
+FROM pg_settings WHERE name='shared_buffers'"
+      ;;
+    config)
+      SQL="
+SELECT
+  rpad(substring(c.relname, 1, 40), 44),
+  pg_size_pretty(pg_relation_size(c.oid)) as relation_size,
+  pg_size_pretty(count(*) * 8192) as buffered,
+  round(100.0 * count(*) /
+    (SELECT setting FROM pg_settings WHERE name='shared_buffers')::integer,1)
+    AS buffers_percent,
+  round(100.0 * count(*) * 8192 / pg_relation_size(c.oid),1)
+    AS percent_of_relation
+FROM pg_class c
+  INNER JOIN pg_buffercache b
+    ON b.relfilenode = c.relfilenode
+  INNER JOIN pg_database d
+    ON (b.reldatabase = d.oid AND d.datname = current_database())
+WHERE
+  pg_relation_size(c.oid) > 0
+GROUP BY c.oid, c.relname
+ORDER BY 4 DESC
+LIMIT 30"
+      ;;
+    usage)
+      SQL="
+SELECT
+  rpad(substring(c.relname, 1, 40), 44),
+  count(*) AS buffers,
+  usagecount
+FROM pg_class c
+  INNER JOIN pg_buffercache b
+    ON b.relfilenode = c.relfilenode
+  INNER JOIN pg_database d
+    ON (b.reldatabase = d.oid AND d.datname = current_database())
+GROUP BY c.relname, usagecount
+ORDER BY c.relname, usagecount"
+      ;;
+    *)
+      show-help
+      exit
+      ;;
+  esac
+
+  [[ $VERBOSE == 1 ]] && echo $SQL
+
+  psql -d $DBNAME -c "$SQL"
+done
