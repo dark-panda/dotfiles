@@ -56,6 +56,6 @@ if [ "$?" = "0" ]; then
   fi
 fi
 
-if [[ -d ~/.zsh/zsh-completions-git ]]; then
-  fpath=(~/.zsh/zsh-completions-git $fpath)
+if [[ -d ~/.zsh/zsh-completions-git/src ]]; then
+  fpath=(~/.zsh/zsh-completions-git/src $fpath)
 fi
