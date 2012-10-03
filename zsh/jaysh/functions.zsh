@@ -48,7 +48,7 @@ function butterfly() {
   echo 'Ƹ̵̡Ӝ̵̨̄Ʒ'
 }
 
-function crazy-eyes() {
+function look-of-disapproval() {
   echo "ಠ_ಠ"
 }
 
