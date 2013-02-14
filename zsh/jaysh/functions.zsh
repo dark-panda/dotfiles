@@ -21,12 +21,6 @@ function cool-date() {
   date +%Y.%m.%d.%H.%M.%S
 }
 
-function zoo-diff() {
-  vimdiff -o \
-    =(wget -O - $1 | gsed "s/assets[0-3]/assets/g" | gsed "s/?[0-9]\+//g") \
-    =(wget -O - $2 | gsed "s/assets[0-3]/assets/g" | gsed "s/old_trunk/trunk/g" | gsed "s/?[0-9]\+//g")
-}
-
 function bak() {
   for i in $@; do
     cp "${i}" "${i}~"
