@@ -88,3 +88,8 @@ function glasses() {
   echo "( •_•)>⌐■-■"
   echo "(⌐■_■)"
 }
+
+function term-title() {
+  echo -n -e "\033]0;$1\007"
+}
+
