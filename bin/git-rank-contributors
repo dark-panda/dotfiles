@@ -23,6 +23,8 @@
 ## You can find the GNU General Public License at:
 ##   http://www.gnu.org/licenses/
 
+require "shellwords"
+
 class String
   def obfuscate; gsub(/@/, " at the ").gsub(/\.(\w+)(>|$)/, ' dot \1s\2') end
 end
@@ -30,10 +32,14 @@ end
 lines = {}
 verbose = ARGV.delete("-v")
 obfuscate = ARGV.delete("-o")
+args = if !ARGV.empty?
+  Shellwords.escape(ARGV.join(" "))
+end
 
 author = nil
 state = :pre_author
-`git log -p --no-color`.each_line do |l|
+cmd = "git log -p --no-color #{args}"
+`#{cmd}`.each_line do |l|
   begin
     case
     when (state == :pre_author || state == :post_author) && l =~ /^Author: (.*)$/
