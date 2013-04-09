@@ -49,14 +49,14 @@ for DBNAME in $@; do
   echo "Connecting to $DBNAME"
 
   case $CMD in
-    summary)
+    config)
       SQL="
 SELECT
   setting AS shared_buffers,
   pg_size_pretty((SELECT setting FROM pg_settings WHERE name='block_size')::int8 * setting::int8) AS size
 FROM pg_settings WHERE name='shared_buffers'"
       ;;
-    config)
+    summary)
       SQL="
 SELECT
   rpad(substring(c.relname, 1, 40), 44),
