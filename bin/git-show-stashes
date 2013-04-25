@@ -1,7 +1,5 @@
 #!/bin/sh
 
 STASHES=`git stash list --pretty=format:'%gd'`
-for i in $STASHES; do
-  git show ${i}
-done
+git show $STASHES
 
