@@ -176,6 +176,7 @@ ORDER BY sum(pg_relation_size(idx)) DESC;"
 
     unused)
       SQL="
+SET search_path = $SCHEMAS;
 SELECT
   idstat.relname AS table_name,
   indexrelname AS index_name,
