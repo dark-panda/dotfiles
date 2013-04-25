@@ -107,7 +107,7 @@ LEFT OUTER JOIN (
 ) AS foo
 ON pg_class.relname = foo.ctablename
 WHERE
-  pg_namespace.nspname='public'
+  NOT pg_namespace.nspname ~* '^pg_'
     AND
   pg_class.relkind = 'r'
 GROUP BY pg_class.relname, pg_class.reltuples, x.is_unique
