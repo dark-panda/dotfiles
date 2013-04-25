@@ -159,23 +159,18 @@ ORDER BY 1, 2;"
 
     duplicated)
       SQL="
-SELECT
-  table_name,
-  array_to_string(array_agg(idx), ', ') AS indexes,
-  pg_size_pretty(sum(pg_relation_size(idx))::bigint) AS size
+SET search_path = $SCHEMAS;
+SELECT pg_size_pretty(sum(pg_relation_size(idx))::bigint) AS size,
+  (array_agg(idx))[1] AS idx1, (array_agg(idx))[2] AS idx2,
+  (array_agg(idx))[3] AS idx3, (array_agg(idx))[4] AS idx4
 FROM (
-  SELECT
-    t.relname::text AS table_name,
-    indexrelid::regclass AS idx,
+  SELECT indexrelid::regclass AS idx,
     (indrelid::text || E'\n' || indclass::text || E'\n' || indkey::text || E'\n' ||
       coalesce(indexprs::text,'') || E'\n' || coalesce(indpred::text,'')
     ) AS KEY
   FROM pg_index
-  JOIN pg_class AS t ON (indrelid = t.oid)
 ) sub
-GROUP BY
-  table_name,
-  KEY HAVING count(*) > 1
+GROUP BY KEY HAVING count(*)>1
 ORDER BY sum(pg_relation_size(idx)) DESC;"
       ;;
 
