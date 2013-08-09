@@ -20,6 +20,7 @@ rescue
   puts 'Term::ANSIColor not found'
 end unless ENV['NO_COLOR'] || defined?(Term::ANSIColor)
 
+ENV['PAGER'] = nil
 
 if defined?(Brice)
   Brice.init { |config|
