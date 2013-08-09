@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+if ARGV.empty?
+  puts "No branches to rebase!"
+  exit(1)
+end
+
+cmd = <<-EOF
+git stash &&
+  git checkout #{ARGV[0]} &&
+  git pull --rebase &&
+EOF
+
+(ARGV.length - 1).times do |i|
+  prev = ARGV[i]
+  branch = ARGV[i + 1]
+  cmd << <<-EOF
+  git checkout #{branch} &&
+  git rebase #{prev} &&
+  EOF
+end
+
+cmd << "  echo DONE"
+
+`#{cmd}`
+
