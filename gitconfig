@@ -3,6 +3,9 @@
 [sendemail]
   multiedit = true
   suppresscc = self
+  smtpserver = smtp.gmail.com
+  smtpserverport = 587
+  smtpencryption = tls
 [color]
   ui = true
 [filemerge]
