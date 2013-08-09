@@ -51,6 +51,9 @@
   igrep    = grep --no-index
   commit-amend = commit --amend -C HEAD
   ca       = !sh -c 'git commit-amend $@' -
+  cv       = commit -v
+  show-stashes = !sh -c 'git show `git stash list --pretty=format:"%gd"`'
+  show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
 [pack]
   threads = 0
 [branch]
