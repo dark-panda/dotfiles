@@ -26,7 +26,7 @@
   fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
   fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
-  default = upstream
+  default = simple
 [grep]
   extendedRegexp = true
 [alias]
