@@ -10,5 +10,6 @@ function growl() {
 }
 
 function flush-dns() {
-  dscacheutil -flushcache
+  sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
+  sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 }
