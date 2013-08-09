@@ -59,7 +59,7 @@ FROM pg_settings WHERE name='shared_buffers'"
     summary)
       SQL="
 SELECT
-  rpad(substring(c.relname, 1, 40), 44),
+  rpad(substring(c.relname, 1, 40), 44) as relation_name,
   pg_size_pretty(pg_relation_size(c.oid)) as relation_size,
   pg_size_pretty(count(*) * 8192) as buffered,
   round(100.0 * count(*) /
@@ -81,7 +81,7 @@ LIMIT 30"
     usage)
       SQL="
 SELECT
-  rpad(substring(c.relname, 1, 40), 44),
+  rpad(substring(c.relname, 1, 40), 44) as relation_name,
   count(*) AS buffers,
   usagecount
 FROM pg_class c
