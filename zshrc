@@ -4,6 +4,15 @@
 # functions, options, key bindings, etc.
 #
 
+function source-jaysh() {
+  [ -r ~/"$1" ] && source ~/"$1"
+}
+
+function source-jaysh-os() {
+  [[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/$1/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/$1/$OS_ZSH.zsh"
+  [ -r ~/".zsh/jaysh/$1/local.zsh" ] && source ~/".zsh/jaysh/$1/local.zsh"
+}
+
 case $OSTYPE in
   darwin*)
     OS_ZSH="darwin"
@@ -14,9 +23,8 @@ case $OSTYPE in
   ;;
 esac
 
-[ -r ~/.zprofile -a -z "$JZPROFILE" ] && source ~/.zprofile
-[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/profile/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/profile/$OS_ZSH.zsh"
-[ -r ~/".zsh/jaysh/profile/local.zsh" ] && source ~/".zsh/jaysh/profile/local.zsh"
+[ -z "$JZPROFILE" ] && source-jaysh ".zprofile"
+source-jaysh-os "profile"
 
 autoload -U compinit
 autoload -Uz vcs_info
@@ -24,9 +32,8 @@ autoload -U zmv
 autoload -U colors
 colors
 
-[ -r ~/".zsh/jaysh/functions.zsh" ] && source ~/".zsh/jaysh/functions.zsh"
-[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/functions/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/functions/$OS_ZSH.zsh"
-[ -r ~/".zsh/jaysh/functions/local.zsh" ] && source ~/".zsh/functions/local.zsh"
+source-jaysh ".zsh/jaysh/functions.zsh"
+source-jaysh-os "functions"
 
 HISTSIZE=2000
 SAVEHIST=2000
@@ -147,8 +154,7 @@ fi
 
 export JZSHRC=1
 
-[[ -n "$OS_ZSH" ]] && [ -r ~/".zsh/jaysh/rc/$OS_ZSH.zsh" ] && source ~/".zsh/jaysh/rc/$OS_ZSH.zsh"
-[ -r ~/".zsh/jaysh/rc/local.zsh" ] && source ~/".zsh/jaysh/rc/local.zsh"
+source-jaysh-os "rc"
 
 compinit
 
