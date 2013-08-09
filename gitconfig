@@ -64,9 +64,11 @@
 [hooks "post-checkout"]
   enabled = true
   update-submodules-rb = true
+  check-bundle-rb = true
 [hooks "post-merge"]
   enabled = true
   update-submodules-rb = true
+  check-bundle-rb = true
 [tig]
   show-date = relative
   line-graphics = utf8
