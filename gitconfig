@@ -29,6 +29,7 @@
   default = simple
 [grep]
   extendedRegexp = true
+  patternType = perl
 [alias]
   stat     = status
   co       = checkout
