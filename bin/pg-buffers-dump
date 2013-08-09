@@ -98,7 +98,7 @@ ORDER BY c.relname, usagecount"
       ;;
   esac
 
-  [[ $VERBOSE == 1 ]] && echo $SQL
+  [[ $VERBOSE == 1 ]] && echo "$SQL"
 
   psql -d $DBNAME -c "$SQL"
 done

@@ -195,7 +195,7 @@ ORDER BY idstat.relname, indexrelname;"
       ;;
   esac
 
-  [[ $VERBOSE == 1 ]] && echo $SQL
+  [[ $VERBOSE == 1 ]] && echo "$SQL"
 
   psql -d $DBNAME -c "$SQL"
 done

@@ -62,9 +62,7 @@ ORDER BY pg_database_size(datname) DESC;
       ;;
   esac
 
-  if [[ $VERBOSE == 1 ]]; then
-    echo $SQL
-  fi
+  [[ $VERBOSE == 1 ]] && echo "$SQL"
 
   psql -d $DBNAME -c "$SQL"
 fi
