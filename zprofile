@@ -3,7 +3,7 @@
 
 export JZPROFILE="1"
 export PATH=$PATH:$HOME/bin:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bin
-export PAGER="/usr/bin/less -S"
+export PAGER="/usr/bin/less -S -R"
 export PSQL_EDITOR='vim -c "set ft=sql"'
 export SVN_EDITOR='vim -c "set wrap linebreak textwidth=72"'
 
