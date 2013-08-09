@@ -28,7 +28,7 @@ if defined?(Brice)
   }
 end
 
-if defined?(Term) && defined?(Term::ANSIColor) && false
+if RUBY_VERSION >= '1.9.3' && defined?(Term) && defined?(Term::ANSIColor) #&& false
   def __pry_color_ui__(msg, *colors)
     fg, bg = colors
     msg = Term::ANSIColor.send(bg) { msg } if bg
