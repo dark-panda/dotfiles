@@ -1,6 +1,0 @@
-#!/bin/sh
-
-for i in `git fsck --unreachable | grep commit | awk '{print $3}'`; do
-  git show $i
-done
-

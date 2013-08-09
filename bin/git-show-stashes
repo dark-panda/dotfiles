@@ -1,5 +1,0 @@
-#!/bin/sh
-
-STASHES=`git stash list --pretty=format:'%gd'`
-git show $STASHES
-
