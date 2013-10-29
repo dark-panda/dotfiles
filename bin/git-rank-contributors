@@ -1,67 +1,63 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
 
-## git-rank-contributors: a simple script to trace through the logs and
-## rank contributors by the total size of the diffs they're responsible for.
-## A change counts twice as much as a plain addition or deletion.
-##
-## Output may or may not be suitable for inclusion in a CREDITS file.
-## Probably not without some editing, because people often commit from more
-## than one address.
-##
-## git-rank-contributors Copyright 2008 William Morgan <wmorgan-git-wt-add@masanjin.net>.
-## This program is free software: you can redistribute it and/or modify
-## it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or (at
-## your option) any later version.
-##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-##
-## You can find the GNU General Public License at:
-##   http://www.gnu.org/licenses/
-
 require "shellwords"
+require "optparse"
 
-class String
-  def obfuscate; gsub(/@/, " at the ").gsub(/\.(\w+)(>|$)/, ' dot \1s\2') end
+def obfuscate(str)
+  str.gsub(/@/, " at the ").gsub(/\.(\w+)(>|$)/, ' dot \1s\2')
 end
 
 lines = {}
-verbose = ARGV.delete("-v")
-obfuscate = ARGV.delete("-o")
+commits = {}
+
+options = {
+  :mailmap => true,
+  :verbose => true
+}
+
+OptionParser.new do |opts|
+  opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
+  opts.on("-o", "--[no-]obfuscate", "Obfuscate") { |v| options[:obfuscate] = v }
+  opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
+end.parse!
+
 args = if !ARGV.empty?
   Shellwords.escape(ARGV.join(" "))
 end
 
+cmd = %{git log --format="Author: #{options[:mailmap] ? '%aN' : '%an'}" --numstat #{args}}
 author = nil
-state = :pre_author
-cmd = "git log -p --no-color #{args}"
+
 `#{cmd}`.each_line do |l|
   begin
     case
-    when (state == :pre_author || state == :post_author) && l =~ /^Author: (.*)$/
+    when l =~ /^Author: (.*)$/
       author = $1
-      state = :post_author
       lines[author] ||= 0
-    when state == :post_author && l =~ /^\+\+\+/
-      state = :in_diff
-    when state == :in_diff && l =~ /^[\+\-]/
-      lines[author] += 1
-    when state == :in_diff && l =~ /^commit /
-      state = :pre_author
+      commits[author] ||= 0
+      commits[author] += 1
+    else
+      adds, dels, file = l.split(/\t/)
+
+      if file
+        lines[author] += adds.to_i + dels.to_i
+      end
     end
   rescue ArgumentError
     next
   end
 end
 
-lines.sort_by { |a, c| -c }.each do |a, c|
-  a = a.obfuscate if obfuscate
-  if verbose
-    puts "#{a}: #{c} lines of diff"
+lines.sort_by { |a, c| -c }.each do |author, c|
+  a = if options[:obfuscate]
+    obfuscate(author)
+  else
+    author
+  end
+
+  if options[:verbose]
+    puts "#{a}: #{c} lines of diff, #{commits[author]} commits"
   else
     puts a
   end
