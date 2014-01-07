@@ -12,6 +12,7 @@
   executable = vimdiff
 [merge]
   tool = vimdiff
+  ff = only
 [core]
   whitespace = error,trailing-space,cr-at-eol,-blank-at-eof,tab-in-indent
   excludesfile = .gitignore.local
