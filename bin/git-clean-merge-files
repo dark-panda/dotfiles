@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "fileutils"
+
+options = {
+  :force => false,
+  :verbose => false
+}
+
+OptionParser.new do |opts|
+  opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
+  opts.on("-f", "--[no-]force", "Force") { |v| options[:force] = v }
+end.parse!
+
+files = Dir.glob('**/{*.{orig},*.{BACKUP,BASE,LOCAL,REMOTE}.*}')
+
+files.each do |file|
+  if !options[:force]
+    answer = false
+
+    while !%w{ y n }.include?(answer)
+      print "Remove #{file}? (y/n) "
+      answer = gets.strip
+    end
+
+    next if answer == 'n'
+  end
+
+  puts "Removing #{file}" if options[:verbose]
+  FileUtils.rm_f(file)
+end
+
