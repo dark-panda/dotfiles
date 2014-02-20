@@ -20,6 +20,7 @@ OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
   opts.on("-o", "--[no-]obfuscate", "Obfuscate") { |v| options[:obfuscate] = v }
   opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
+  opts.on("-c", "--commits", "Sort by commits") { |v| options[:commits] = true }
 end.parse!
 
 args = if !ARGV.empty?
@@ -49,7 +50,13 @@ author = nil
   end
 end
 
-lines.sort_by { |a, c| -c }.each do |author, c|
+to_sort = if options[:commits]
+  commits
+else
+  lines
+end
+
+to_sort.sort_by { |a, c| -c }.each do |author, c|
   a = if options[:obfuscate]
     obfuscate(author)
   else
@@ -57,7 +64,7 @@ lines.sort_by { |a, c| -c }.each do |author, c|
   end
 
   if options[:verbose]
-    puts "#{a}: #{c} lines of diff, #{commits[author]} commits"
+    puts "#{a}: #{lines[author]} lines of diff, #{commits[author]} commits"
   else
     puts a
   end
