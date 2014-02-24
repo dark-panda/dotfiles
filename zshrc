@@ -21,6 +21,10 @@ case $OSTYPE in
   linux*)
     OS_ZSH="linux"
   ;;
+
+  freebsd*)
+    OS_ZSH="freebsd"
+  ;;
 esac
 
 [ -z "$JZPROFILE" ] && source-jaysh ".zprofile"
