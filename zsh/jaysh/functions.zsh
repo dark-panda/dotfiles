@@ -93,3 +93,11 @@ function term-title() {
   echo -n -e "\033]0;$1\007"
 }
 
+function susu() {
+  if [ "$#" -eq 0 ]; then
+    echo "susu: Does \`sudo su \$@\`"
+  else
+    sudo su $@
+  fi
+}
+
