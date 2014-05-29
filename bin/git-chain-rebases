@@ -15,8 +15,7 @@ EOF
   prev = ARGV[i]
   branch = ARGV[i + 1]
   cmd << <<-EOF
-  git checkout #{branch} &&
-  git rebase #{prev} &&
+  git rebase #{prev} #{branch} &&
   EOF
 end
 
