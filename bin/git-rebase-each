@@ -1,0 +1,12 @@
+#!/bin/sh
+
+CURRENT_BRANCH=`basename $(git symbolic-ref -q HEAD)`
+
+for i in $@; do
+  echo "\nRebasing ${CURRENT_BRANCH} on to ${i}\n"
+  git rebase "${CURRENT_BRANCH}" "${i}" || exit
+done
+
+echo "\nSwitching back to ${CURRENT_BRANCH}"
+git co "${CURRENT_BRANCH}"
+
