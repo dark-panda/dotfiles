@@ -60,6 +60,7 @@
   frune    = fetch --prune
   locate   = "!git ls-files | grep -i"
   ocherry  = "!sh -c 'git cherry -v $1 origin/${1:-`git rev-parse --abbrev-ref HEAD`}'"
+  odiff    = "!sh -c 'git diff $@ origin/${1:-`git rev-parse --abbrev-ref HEAD`}'"
   cleanup  = "!git frune && git prune && git gc --aggressive"
 [pack]
   threads = 0
