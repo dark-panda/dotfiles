@@ -27,7 +27,7 @@ args = if !ARGV.empty?
   Shellwords.escape(ARGV.join(" "))
 end
 
-cmd = %{git log --format="Author: #{options[:mailmap] ? '%aN' : '%an'}" --numstat #{args}}
+cmd = %{git log --format="Author: #{options[:mailmap] ? '%aN' : '%an - %ae'}" --numstat #{args}}
 author = nil
 
 `#{cmd}`.each_line do |l|
