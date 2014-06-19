@@ -31,6 +31,8 @@
 [grep]
   extendedRegexp = true
   patternType = perl
+[gc]
+  autodetach = true
 [alias]
   stat     = status
   co       = checkout
