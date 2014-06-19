@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "shellwords"
+
+def check_rev_parse(retval, rev)
+  if retval != 0
+    puts "ERROR: cannot parse rev #{rev}"
+    exit 1
+  end
+end
+
+github_project = `git config github.project`.strip
+
+if github_project.empty?
+  puts "ERROR: cannot find the \`github.project\` git config option."
+  puts "Please set this value in your git config to \`\$USER/\$PROJECT\`"
+  puts "as per the GitHub project for this repository."
+  exit 1
+end
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.on("-b", "--branch", "Branch") { |v| options[:branch] = v }
+  opts.on("-o", "--open", "Open") { |v| options[:open] = v }
+end.parse!
+
+rev = ARGV.last || "HEAD"
+rev_parse, action = if options[:branch]
+  [
+    `git rev-parse --abbrev-ref "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
+    "tree"
+  ]
+else
+  [
+    `git rev-parse "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
+    "commit"
+  ]
+end
+
+check_rev_parse($?, rev)
+
+url = "https://github.com/#{github_project}/#{action}/#{rev_parse}"
+
+if options[:open]
+  `open #{Shellwords.escape(url)}`
+else
+  puts url
+end
+
