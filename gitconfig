@@ -52,6 +52,7 @@
   cp       = cherry-pick
   commit   = commit --verbose
   igrep    = grep --no-index
+  ngrep    = grep -A5 -B5
   commit-amend = commit --amend -C HEAD
   ca       = !sh -c 'git commit-amend $@' -
   cv       = commit -v
