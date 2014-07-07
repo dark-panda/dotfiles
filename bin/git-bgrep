@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'shellwords'
+
+grep = `git grep -I -n #{ARGV.join(" ")}`
+
+if $? != 0
+  print grep
+  exit($?.to_i)
+end
+
+trap('INT') { exit }
+
+grep.each_line do |file_with_line|
+  file, line_number, line = file_with_line.split(':', 3)
+  puts "#{file}:"
+  puts `git blame -L #{line_number},#{line_number} #{file}`
+  puts
+end
+
