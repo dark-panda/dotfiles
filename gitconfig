@@ -60,7 +60,7 @@
   show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
   frune    = fetch --prune
   locate   = "!git ls-files | grep -i"
-  ocherry  = "!sh -c 'git cherry -v $1 origin/${1:-`git rev-parse --abbrev-ref HEAD`}'"
+  ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH'"
   odiff    = "!sh -c 'git diff $@ origin/${1:-`git rev-parse --abbrev-ref HEAD`}'"
   cleanup  = "!git frune && git prune && git gc --aggressive"
 [pack]
