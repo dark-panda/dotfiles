@@ -63,6 +63,7 @@
   ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH'"
   odiff    = "!sh -c 'git diff $@ origin/${1:-`git rev-parse --abbrev-ref HEAD`}'"
   cleanup  = "!git frune && git prune && git gc --aggressive"
+  dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n'"
 [pack]
   threads = 0
 [branch]
