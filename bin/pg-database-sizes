@@ -16,7 +16,7 @@ function show-help() {
   echo "when connecting."
 }
 
-while getopts ":vbp" OPT; do
+while getopts ":vbpd:" OPT; do
   case $OPT in
     d)
       DBNAME=$OPTARG

@@ -17,11 +17,11 @@ function show-help() {
 
 while getopts ":vbp" OPT; do
   case $OPT in
-    b)
-      CMD="bytes"
-      ;;
     v)
       VERBOSE=1
+      ;;
+    c)
+      CMD=$OPTARG
       ;;
     *)
       show-help
@@ -29,7 +29,6 @@ while getopts ":vbp" OPT; do
       ;;
   esac
 done
-
 shift $((OPTIND-1))
 
 if [ $# -eq 0 ]; then
