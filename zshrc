@@ -156,6 +156,10 @@ else
   PROMPT=$'%{$fg[white]%}[%n@%{$fg[$HOST_COLOR]%}%m%{$fg[white]%} %c]%{$reset_color%}%# '
 fi
 
+if [[ -d ~/.zsh/zsh-completions-git/src ]]; then
+  fpath=(~/.zsh/zsh-completions-git/src $fpath)
+fi
+
 export JZSHRC=1
 
 source-jaysh-os "rc"
