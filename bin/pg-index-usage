@@ -11,6 +11,7 @@ function show-help() {
   echo " summary - index statistics summary (default)"
   echo " detailed - detailed index statistics"
   echo " duplicated - finds duplicate indexes"
+  echo " usage - index usage"
   echo " unused - finds unused indexes"
   echo
   echo "Options:"
@@ -41,6 +42,7 @@ case $CMD in
   detailed) ;;
   summary) ;;
   duplicated) ;;
+  usage) ;;
   unused) ;;
   *)
     show-help
@@ -174,6 +176,26 @@ GROUP BY KEY HAVING count(*)>1
 ORDER BY sum(pg_relation_size(idx)) DESC;"
       ;;
 
+    usage)
+      SQL="
+SET search_path = $SCHEMAS;
+SELECT
+  idstat.relname AS table_name,
+  indexrelname AS index_name,
+  idstat.idx_scan AS times_used,
+  pg_size_pretty(pg_relation_size(idstat.relname::regclass)) AS table_size,
+  pg_size_pretty(pg_relation_size(indexrelname::regclass)) AS index_size,
+  n_tup_upd + n_tup_ins + n_tup_del as num_writes,
+  indexdef AS definition
+FROM
+  pg_stat_user_indexes AS idstat
+JOIN pg_indexes ON indexrelname = indexname
+JOIN pg_stat_user_tables AS tabstat ON idstat.relname = tabstat.relname
+WHERE
+  indexdef !~* 'unique'
+ORDER BY idstat.relname, indexrelname;"
+      ;;
+
     unused)
       SQL="
 SET search_path = $SCHEMAS;
@@ -190,6 +212,8 @@ FROM
 JOIN pg_indexes ON indexrelname = indexname
 JOIN pg_stat_user_tables AS tabstat ON idstat.relname = tabstat.relname
 WHERE
+  idstat.idx_scan = 0
+    AND
   indexdef !~* 'unique'
 ORDER BY idstat.relname, indexrelname;"
       ;;
