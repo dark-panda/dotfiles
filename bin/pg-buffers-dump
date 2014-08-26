@@ -88,8 +88,7 @@ FROM pg_class c
 WHERE
   pg_relation_size(c.oid) > 0
 GROUP BY c.oid, c.relname
-ORDER BY 4 DESC
-LIMIT 30"
+ORDER BY 4 DESC"
       ;;
     usage)
       SQL="
