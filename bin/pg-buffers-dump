@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 VERBOSE=0
+PRETTY=0
 CMD="summary"
+FORMAT="plain"
 
 function show-help() {
-  echo "Usage: $0 [-v] [-c CMD] DBNAME [... DBNAME]"
+  echo "Usage: $0 [-v] [-c CMD] [-p] [-f FORMAT] DBNAME [... DBNAME]"
   echo
   echo "Where CMD is one of"
   echo
@@ -15,18 +17,27 @@ function show-help() {
   echo "Options:"
   echo
   echo " -v - verbose"
+  echo " -p - pretty numbers"
+  echo " -f - output format (default is plain; values include text,"
+  echo "   csv, plain and binary."
   echo
   echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
   echo "when connecting."
 }
 
-while getopts ":vhc:" OPT; do
+while getopts ":vhc:pf:" OPT; do
   case $OPT in
     v)
       VERBOSE=1
       ;;
     c)
       CMD=$OPTARG
+      ;;
+    p)
+      PRETTY=1
+      ;;
+    f)
+      FORMAT=$OPTARG
       ;;
     *)
       show-help
@@ -41,6 +52,12 @@ if [ $# -eq 0 ]; then
   exit
 fi
 
+if [[ $PRETTY == 1 ]]; then
+  NUMBER_FUNCTION="pg_size_pretty"
+else
+  NUMBER_FUNCTION="coalesce"
+fi
+
 for DBNAME in $@; do
   echo "Connecting to $DBNAME"
 
@@ -49,15 +66,15 @@ for DBNAME in $@; do
       SQL="
 SELECT
   setting AS shared_buffers,
-  pg_size_pretty((SELECT setting FROM pg_settings WHERE name='block_size')::int8 * setting::int8) AS size
+  $NUMBER_FUNCTION((SELECT setting FROM pg_settings WHERE name='block_size')::int8 * setting::int8) AS size
 FROM pg_settings WHERE name='shared_buffers'"
       ;;
     summary)
       SQL="
 SELECT
   rpad(substring(c.relname, 1, 40), 44) as relation_name,
-  pg_size_pretty(pg_relation_size(c.oid)) as relation_size,
-  pg_size_pretty(count(*) * 8192) as buffered,
+  $NUMBER_FUNCTION(pg_relation_size(c.oid)) as relation_size,
+  $NUMBER_FUNCTION(count(*) * 8192) as buffered,
   round(100.0 * count(*) /
     (SELECT setting FROM pg_settings WHERE name='shared_buffers')::integer,1)
     AS buffers_percent,
@@ -94,7 +111,25 @@ ORDER BY c.relname, usagecount"
       ;;
   esac
 
+  case $FORMAT in
+    csv)
+      SQL="COPY ($SQL) TO STDOUT WITH CSV HEADER"
+      ;;
+
+    text | binary)
+      SQL="COPY ($SQL) TO STDOUT WITH $FORMAT"
+      ;;
+
+    plain)
+      ;;
+
+    *)
+      show-help
+      exit
+      ;;
+  esac
+
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME -c "$SQL"
+  psql -q -d $DBNAME -c "$SQL"
 done
