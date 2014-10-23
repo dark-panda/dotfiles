@@ -5,6 +5,7 @@
 \set HISTCONTROL ignoreboth
 
 \pset pager always
+\pset null '[NULL]'
 
 \set PROMPT1 '%n:%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
 \set PROMPT2 '%n:%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
