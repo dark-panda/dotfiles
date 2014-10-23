@@ -2,7 +2,7 @@
 
 require 'shellwords'
 
-grep = `git grep -I -n #{ARGV.join(" ")}`
+grep = `git grep -I -n #{ARGV.collect { |arg| Shellwords.escape(arg) }.join(" ")}`
 
 if $? != 0
   print grep
