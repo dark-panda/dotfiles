@@ -2,6 +2,7 @@
 \timing on
 
 \set HISTSIZE 2000
+\set HISTCONTROL ignoreboth
 
 \pset pager always
 
