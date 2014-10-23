@@ -20,6 +20,7 @@ OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
   opts.on("-o", "--[no-]obfuscate", "Obfuscate") { |v| options[:obfuscate] = v }
   opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
+  opts.on("-e", "--show-email", "Display email") { |v| options[:email] = v }
   opts.on("-c", "--commits", "Sort by commits") { |v| options[:commits] = true }
 end.parse!
 
@@ -27,7 +28,19 @@ args = if !ARGV.empty?
   Shellwords.escape(ARGV.join(" "))
 end
 
-cmd = %{git log --format="Author: #{options[:mailmap] ? '%aN' : '%an - %ae'}" --numstat #{args}}
+contributor_format = if options[:mailmap]
+  if options[:email]
+    '%aN - %ae'
+  else
+    '%aN'
+  end
+elsif options[:email]
+  '%ae'
+else
+  '%an - %ae'
+end
+
+cmd = %{git log --format="Author: #{contributor_format}" --numstat #{args}}
 author = nil
 
 `#{cmd}`.each_line do |l|
