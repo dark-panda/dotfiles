@@ -65,6 +65,7 @@
   cleanup  = "!git frune && git prune && git gc --aggressive"
   dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
   pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
+  fush     = "!sh -c 'git push --force' -"
 [pack]
   threads = 0
 [branch]
