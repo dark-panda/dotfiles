@@ -101,3 +101,7 @@ if filereadable($HOME."/.vimrc.local.vim")
   source ${HOME}/.vimrc.local.vim
 end
 
+nmap \l :setlocal number!<CR>
+nmap \o :set paste!<CR>
+nmap \e :NERDTreeToggle<CR>
+
