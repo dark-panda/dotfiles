@@ -40,16 +40,17 @@ else
   end
 end
 
+if defined?(AwesomePrint)
+  Pry.config.print = proc { |output, value|
+    printed = value.ai
 
-Pry.config.print = proc { |output, value|
-  printed = value.ai
-
-  if printed.count("\n") >= 30
-    Pry::Helpers::BaseHelpers.stagger_output("=> #{printed}", output)
-  else
-    output.puts(printed)
-  end
-}
+    if printed.count("\n") >= 30
+      Pry::Helpers::BaseHelpers.stagger_output("=> #{printed}", output)
+    else
+      output.puts(printed)
+    end
+  }
+end
 
 if defined?(Rails) || ENV['RAILS_ENV']
   rails_env = if defined?(Rails)
