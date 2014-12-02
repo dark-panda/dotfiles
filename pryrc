@@ -4,19 +4,19 @@ require 'socket'
 
 begin
   require 'awesome_print'
-rescue
+rescue LoadError
   puts 'AwesomePrint not found'
 end unless ENV['NO_AWESOME_PRINT'] || defined?(AwesomePrint)
 
 begin
   require 'brice'
-rescue
+rescue LoadError
   puts 'Brice not found'
 end unless ENV['NO_BRICE'] || defined?(Brice)
 
 begin
   require 'term/ansicolor'
-rescue
+rescue LoadError
   puts 'Term::ANSIColor not found'
 end unless ENV['NO_COLOR'] || defined?(Term::ANSIColor)
 
