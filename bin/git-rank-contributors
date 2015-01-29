@@ -2,21 +2,96 @@
 
 require "shellwords"
 require "optparse"
+require "array-statistics"
+
+begin
+  require 'term/ansicolor'
+rescue LoadError
+  puts 'Term::ANSIColor not found'
+end
 
 def obfuscate(str)
   str.gsub(/@/, " at the ").gsub(/\.(\w+)(>|$)/, ' dot \1s\2')
 end
 
-lines = {}
+class ::Array
+  def median
+    return @median if @median
+
+    arr = self.sort
+
+    @median = if arr.length.even?
+      (arr[arr.length / 2] + arr[arr.length/2 - 1]) / 2
+    else
+      arr[arr.length / 2]
+    end
+  end
+
+  def sum
+    @sum ||= inject(0, &:+)
+  end
+
+  def average
+    @average ||= (sum / length).round(3)
+  end
+
+  def mode
+    return @mode if @mode
+
+    freq = each_with_object(Hash.new(0)) { |v, memo| memo[v] += 1 }
+    max = freq.values.max
+    @mode = freq.select { |k, f| f == max }
+  end
+
+  def sample_variance
+    sum = inject(0) { |accum, i| accum + (i - mean) ** 2 }
+    sum / (length - 1).to_f
+  end
+
+  def standard_deviation
+    return Math.sqrt(sample_variance)
+  end
+end
+
+def term_columns
+  return @term_columns if defined?(@term_columns)
+
+  columns = `tput cols`
+
+  @term_columns = if $? == 0 && columns
+    [ columns.to_i - 10, 80 ].min
+  end
+end
+
+def create_totals_hash
+  Hash.new { |hash, k| hash[k] = [] }
+end
+
+if defined?(Term::ANSIColor)
+  def color(m, fg = nil, bg = nil)
+    m = Term::ANSIColor.send(bg) { m } if bg
+    m = Term::ANSIColor.send(fg) { m } if fg
+  end
+else
+  def color(m, *)
+    m
+  end
+end
+
 commits = {}
+lines = {}
+lines_added = create_totals_hash
+lines_deleted = create_totals_hash
 
 options = {
-  :mailmap => true,
-  :verbose => true
+  mailmap: true,
+  verbose: true
 }
 
 OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
+  opts.on("-s", "--[no-]stat", "Show stat graph") { |v| options[:stat] = v }
+  opts.on("-m", "--[no-]more", "Show more details") { |v| options[:more] = v }
   opts.on("-o", "--[no-]obfuscate", "Obfuscate") { |v| options[:obfuscate] = v }
   opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
   opts.on("-e", "--show-email", "Display email") { |v| options[:email] = v }
@@ -52,9 +127,13 @@ author = nil
       commits[author] += 1
     else
       adds, dels, file = l.split(/\t/)
+      adds = adds.to_i
+      dels = dels.to_i
 
       if file
-        lines[author] += adds.to_i + dels.to_i
+        lines_added[author] << adds
+        lines_deleted[author] << dels
+        lines[author] += adds + dels
       end
     end
   rescue ArgumentError
@@ -68,7 +147,7 @@ else
   lines
 end
 
-to_sort.sort_by { |a, c| -c }.each do |author, c|
+to_sort.sort_by { |_, c| -c }.each do |author, c|
   a = if options[:obfuscate]
     obfuscate(author)
   else
@@ -79,5 +158,28 @@ to_sort.sort_by { |a, c| -c }.each do |author, c|
     puts "#{a}: #{lines[author]} lines of diff, #{commits[author]} commits"
   else
     puts a
+  end
+
+  if options[:stat]
+    print '  '
+    print color('+' * (lines_added[author].sum / lines[author].to_f * term_columns).floor, 'green')
+    print color('-' * (lines_deleted[author].sum / lines[author].to_f * term_columns).floor, 'red')
+    2.times { puts }
+  end
+
+  if options[:more]
+    more_proc = proc { |label, values|
+      puts "  - #{label}:"
+      puts "    - Total: #{values[author].sum}"
+      puts "    - Average: #{values[author].average}"
+      puts "    - Standard deviation: #{values[author].standard_deviation.round(3)}"
+      puts "    - Median: #{values[author].median}"
+      puts "    - Max: #{values[author].max}"
+      puts "    - Min: #{values[author].min}"
+      puts
+    }
+
+    more_proc.("Additions", lines_added)
+    more_proc.("Deletions", lines_deleted)
   end
 end
