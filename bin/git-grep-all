@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'shellwords'
+
+options = {
+  branch_pattern: false,
+  verbose: false
+}
+
+OptionParser.new { |opts|
+  opts.on("-p", "--branch-pattern=PATTERN", "branch-pattern") { |v| options[:branch_pattern] = v }
+  opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
+}.parse!
+
+branches = `git for-each-ref --format="%(refname)" refs/heads`.each_line
+branches = branches.grep(/#{options[:branch_pattern]}/) if options[:branch_pattern]
+
+pattern = ARGV.shift
+grep_args = ARGV.collect do |arg|
+  Shellwords.escape(arg)
+end
+
+trap('INT') { exit }
+
+branches.each do |branch|
+  branch.chop!
+
+  cmd = "git grep #{grep_args.join(' ')} #{Shellwords.escape(pattern)} #{Shellwords.escape(branch)}"
+
+  puts cmd if options[:verbose]
+
+  output = `#{cmd}`
+
+  unless output.empty?
+    puts output
+    puts
+  end
+end

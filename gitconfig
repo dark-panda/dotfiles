@@ -46,7 +46,6 @@
   s-log    = stash list --pretty=format:'%Cred%gd - %h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   svn-diff = diff remotes/git-svn
   x        = !sh -c 'gitx'
-  grep-all = !sh -c 'git rev-list --all | xargs git grep \"${1}\"' -
   whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
   up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
   cp       = cherry-pick
