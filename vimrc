@@ -104,4 +104,5 @@ end
 nmap \l :setlocal number!<CR>
 nmap \o :set paste!<CR>
 nmap \e :NERDTreeToggle<CR>
+nmap \q :qall!<CR>
 
