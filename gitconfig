@@ -56,6 +56,7 @@
   commit-amend = commit --amend -C HEAD
   ca       = !sh -c 'git commit-amend $@' -
   cv       = commit -v
+  vommit   = commit -v
   show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
   show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
   frune    = fetch --prune
