@@ -63,6 +63,7 @@
   locate   = "!git ls-files | grep -i"
   ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
   odiff    = "!sh -c 'git diff @{u}' -"
+  ostat    = "!sh -c 'git diff --stat @{u}' -"
   cleanup  = "!git frune && git prune && git gc --aggressive"
   dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
   pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
