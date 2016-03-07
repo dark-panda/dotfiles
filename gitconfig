@@ -69,6 +69,7 @@
   pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
   fush     = "!sh -c 'git push --force' -"
   changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
+  tidy     = "!sh -c 'git rebase -i @{u}' -"
 [pack]
   threads = 0
 [branch]
