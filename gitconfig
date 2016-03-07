@@ -70,6 +70,7 @@
   fush     = "!sh -c 'git push --force' -"
   changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
   tidy     = "!sh -c 'git rebase -i @{u}' -"
+  back     = "!sh -c 'git checkout -' -"
 [pack]
   threads = 0
 [branch]
