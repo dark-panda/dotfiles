@@ -67,7 +67,7 @@
   cleanup  = "!git frune && git prune && git gc --aggressive"
   dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
   pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
-  fush     = "!sh -c 'git push --force' -"
+  fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
   changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
   tidy     = "!sh -c 'git rebase -i @{u}' -"
   back     = "!sh -c 'git checkout -' -"
