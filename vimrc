@@ -4,7 +4,7 @@ if has("pathogen")
 endif
 
 if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
-   set fileencodings=ucs-bom,utf-8,latin1
+  set fileencodings=ucs-bom,utf-8,latin1
 endif
 
 set nocompatible	" Use Vim defaults (much better!)
@@ -40,18 +40,18 @@ if has("autocmd")
 endif
 
 if has("cscope") && filereadable("/usr/bin/cscope")
-   set csprg=/usr/bin/cscope
-   set csto=0
-   set cst
-   set nocsverb
-   " add any database in current directory
-   if filereadable("cscope.out")
-      cs add cscope.out
-   " else add database pointed to by environment
-   elseif $CSCOPE_DB != ""
-      cs add $CSCOPE_DB
-   endif
-   set csverb
+  set csprg=/usr/bin/cscope
+  set csto=0
+  set cst
+  set nocsverb
+  " add any database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+  " else add database pointed to by environment
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+  set csverb
 endif
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -64,9 +64,9 @@ endif
 filetype plugin on
 
 if &term=="xterm"
-     set t_Co=8
-     set t_Sb=[4%dm
-     set t_Sf=[3%dm
+  set t_Co=8
+  set t_Sb=[4%dm
+  set t_Sf=[3%dm
 endif
 
 " Don't wake up system with blinking cursor:
@@ -88,7 +88,7 @@ au BufNewFile,BufRead *.jst    let b:eruby_subtype = "js" | setf eruby
 " files.
 function! AppendModeline()
   let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d :",
-        \ &tabstop, &shiftwidth, &textwidth)
+    \ &tabstop, &shiftwidth, &textwidth)
   let l:modeline = substitute(&commentstring, "%s", l:modeline, "")
   call append(line("$"), l:modeline)
 endfunction
