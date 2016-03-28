@@ -90,7 +90,7 @@ endfunction
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 if has("autocmd")
-  autocmd BufWritePre * :%s/\s\+$//e
+  autocmd! BufWritePre * :%s/\s\+$//e
 endif
 
 set modeline
