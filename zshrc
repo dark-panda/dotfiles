@@ -130,12 +130,6 @@ if [[ -n "$SSH_CLIENT" ]]; then
   HOST_COLOR="yellow"
 fi
 
-case $HOST in
-  *.zoocasa.com|*.i.internal|dhcp*)
-    HOST_COLOR="cyan"
-  ;;
-esac
-
 function-exists vcs_info
 if [[ $? = 0 ]]; then
   zstyle ':vcs_info:*'              enable            git svn svk cvs hg
