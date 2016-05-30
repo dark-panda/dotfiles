@@ -9,8 +9,8 @@
 
 \x auto
 
-\set PROMPT1 '%n:%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
-\set PROMPT2 '%n:%/@%[%033[1;33;40m%]%`hostname -s`%[%033[0m%]%R%# '
+\set PROMPT1 '%n:%/@%[%033[1;33;40m%]%M%[%033[0m%]%R%# '
+\set PROMPT2 '%n:%/@%[%033[1;33;40m%]%M%[%033[0m%]%R%# '
 
 \setenv LESS -imx4
 
