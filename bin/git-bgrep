@@ -1,6 +1,15 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
 require 'shellwords'
+
+options = {
+  email: false
+}
+
+OptionParser.new { |opts|
+  opts.on("-e", "--email", "Show email instead of author name") { |v| options[:email] = v }
+}.parse!
 
 grep = `git grep -I -n #{ARGV.collect { |arg| Shellwords.escape(arg) }.join(" ")}`
 
@@ -11,10 +20,12 @@ end
 
 trap('INT') { exit }
 
+cmd = 'git blame'
+cmd << ' -e' if options[:email]
+
 grep.each_line do |file_with_line|
   file, line_number, line = file_with_line.split(':', 3)
   puts "#{file}:"
-  puts `git blame -L #{line_number},#{line_number} #{file}`
+  puts `#{cmd} -L #{line_number},#{line_number} #{file}`
   puts
 end
-
