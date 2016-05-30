@@ -38,13 +38,13 @@
   co       = checkout
   ws       = diff-index --color --check HEAD
   dcommit  = svn dcommit
-  p-log    = log --patch --parents
-  f-log    = whatchanged --graph --parents
-  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
   c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+  e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+  f-log    = whatchanged --graph --parents
+  g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
+  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+  p-log    = log --patch --parents
+  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   s-log    = stash list --pretty=format:'%Cred%gd - %h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   svn-diff = diff remotes/git-svn
   x        = !sh -c 'gitx'
