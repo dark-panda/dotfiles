@@ -15,13 +15,13 @@ function show-help() {
   echo "when connecting."
 }
 
-while getopts ":vbp" OPT; do
+while getopts ":vb" OPT; do
   case $OPT in
     v)
       VERBOSE=1
       ;;
-    c)
-      CMD=$OPTARG
+    b)
+      CMD=bytes
       ;;
     *)
       show-help
