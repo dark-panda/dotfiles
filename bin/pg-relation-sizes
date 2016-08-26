@@ -49,8 +49,8 @@ for DBNAME in $@; do
       SQL="
 SELECT c.relname AS Name,
   pg_relation_size(c.relname::regclass) AS Data,
-  pg_total_relation_size(c.relname::regclass) -
-    pg_relation_size(c.relname::regclass) AS Indices,
+  pg_indexes_size(c.relname::regclass) AS Indices,
+  pg_total_relation_size(reltoastrelid) AS TOAST,
   pg_total_relation_size(c.relname::regclass) AS Total
 FROM pg_class c
 LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
@@ -65,8 +65,8 @@ ORDER BY c.relpages DESC;
       SQL="
 SELECT c.relname AS Name,
   pg_size_pretty(pg_relation_size(c.relname::regclass)) AS Data,
-  pg_size_pretty(pg_total_relation_size(c.relname::regclass) -
-    pg_relation_size(c.relname::regclass)) AS Indices,
+  pg_size_pretty(pg_indexes_size(c.relname::regclass)) AS Indices,
+  pg_size_pretty(pg_total_relation_size(reltoastrelid)) AS TOAST,
   pg_size_pretty(pg_total_relation_size(c.relname::regclass)) AS Total
 FROM pg_class c
 LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
