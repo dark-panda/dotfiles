@@ -2,14 +2,16 @@
 
 VERBOSE=0
 DBNAME="template1"
+CONNECTION=""
 
 function show-help() {
-  echo "Usage: $0 [-v] [-b]"
+  echo "Usage: $0 [-v] [-b] [-C CONNECTION]"
   echo
   echo "Options:"
   echo
   echo " -b - show sizes in bytes"
   echo " -v - verbose"
+  echo " -C - connection options as a string"
   echo " -d - database to connect to (the default is template1)"
   echo
   echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
@@ -23,6 +25,9 @@ while getopts ":vbpd:" OPT; do
       ;;
     b)
       CMD="bytes"
+      ;;
+    C)
+      CONNECTION=$OPTARG
       ;;
     v)
       VERBOSE=1
@@ -64,6 +69,5 @@ ORDER BY pg_database_size(datname) DESC;
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME -c "$SQL"
+  psql -d $DBNAME $CONNECTION -c "$SQL"
 fi
-

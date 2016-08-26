@@ -2,26 +2,31 @@
 
 VERBOSE=0
 DBNAME="template1"
+CONNECTION=""
 
 function show-help() {
-  echo "Usage: $0 [-v] [-b] DBNAME [... DBNAME]"
+  echo "Usage: $0 [-v] [-b] [-C CONNECTION] DBNAME [... DBNAME]"
   echo
   echo "Options:"
   echo
   echo " -b - show sizes in bytes"
+  echo " -C - connection options as a string"
   echo " -v - verbose"
   echo
   echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
   echo "when connecting."
 }
 
-while getopts ":vb" OPT; do
+while getopts ":vbC:" OPT; do
   case $OPT in
     v)
       VERBOSE=1
       ;;
     b)
       CMD=bytes
+      ;;
+    C)
+      CONNECTION=$OPTARG
       ;;
     *)
       show-help
@@ -75,6 +80,5 @@ ORDER BY c.relpages DESC;
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME -c "$SQL"
+  psql -d $DBNAME $CONNECTION -c "$SQL"
 done
-

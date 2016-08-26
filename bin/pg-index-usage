@@ -2,9 +2,10 @@
 
 VERBOSE=0
 CMD="summary"
+CONNECTION=""
 
 function show-help() {
-  echo "Usage: $0 [-v] [-c CMD] DBNAME [... DBNAME]"
+  echo "Usage: $0 [-v] [-c CMD] [-C CONNECTION] DBNAME [... DBNAME]"
   echo
   echo "Where CMD is one of"
   echo
@@ -16,19 +17,23 @@ function show-help() {
   echo
   echo "Options:"
   echo
+  echo " -C - connection options as a string"
   echo " -v - verbose"
   echo
   echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
   echo "when connecting."
 }
 
-while getopts ":vhc:" OPT; do
+while getopts ":vhc:C:" OPT; do
   case $OPT in
     v)
       VERBOSE=1
       ;;
     c)
       CMD=$OPTARG
+      ;;
+    C)
+      CONNECTION=$OPTARG
       ;;
     *)
       show-help
@@ -58,7 +63,7 @@ fi
 for DBNAME in $@; do
   echo "Connecting to $DBNAME"
   SQL="SELECT array_to_string(array_agg(nspname), ',') FROM pg_namespace WHERE NOT nspname ~* '^pg_';"
-  SCHEMAS=`psql -d $DBNAME -t -c "$SQL"`
+  SCHEMAS=`psql -d $DBNAME -t $CONNECTION -c "$SQL"`
 
   case $CMD in
     summary)
@@ -221,5 +226,5 @@ ORDER BY idstat.relname, indexrelname;"
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME -c "$SQL"
+  psql -d $DBNAME $CONNECTION -c "$SQL"
 done

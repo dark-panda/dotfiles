@@ -6,7 +6,7 @@ CMD="summary"
 FORMAT="plain"
 
 function show-help() {
-  echo "Usage: $0 [-v] [-c CMD] [-p] [-f FORMAT] DBNAME [... DBNAME]"
+  echo "Usage: $0 [-v] [-c CMD] [-p] [-f FORMAT] [-C CONNECTION] DBNAME [... DBNAME]"
   echo
   echo "Where CMD is one of"
   echo
@@ -20,6 +20,7 @@ function show-help() {
   echo " -p - pretty numbers"
   echo " -f - output format (default is plain; values include text,"
   echo "   csv, plain and binary."
+  echo " -C - connection options as a string"
   echo
   echo "You may want to set some things like PGPASSWORD, PGUSER, etc."
   echo "when connecting."
@@ -38,6 +39,9 @@ while getopts ":vhc:pf:" OPT; do
       ;;
     f)
       FORMAT=$OPTARG
+      ;;
+    C)
+      CONNECTION=$OPTARG
       ;;
     *)
       show-help
@@ -130,5 +134,5 @@ ORDER BY c.relname, usagecount"
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -q -d $DBNAME -c "$SQL"
+  psql -q -d $DBNAME $CONNECTION -c "$SQL"
 done
