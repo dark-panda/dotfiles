@@ -1,4 +1,6 @@
 
+\set QUIET 1
+
 \timing on
 
 \set HISTSIZE 2000
@@ -16,3 +18,5 @@
 
 --\set PROMPT1 '%/@%`hostname -s`%R%# '
 --\set PROMPT2 '%/@%`hostname -s`%R%# '
+
+\unset QUIET
