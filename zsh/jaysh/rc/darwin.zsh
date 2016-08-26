@@ -26,6 +26,7 @@ function csshXi() {
 
 # other aliases
 alias vi='vim'
+alias mysql="env EDITOR='vim -c \"set ft=sql\"' mysql"
 
 # some environment settings
 EDITOR="/usr/bin/vim"
