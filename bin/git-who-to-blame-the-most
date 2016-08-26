@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'shellwords'
+
+lines_per_user = {}
+args = if ARGV.empty?
+  `git ls-files`.split
+else
+  ARGV
+end
+
+args.each do |arg|
+  blame = `git blame -e #{Shellwords.escape(arg)}`
+
+  lines = blame.each_line.map { |line|
+    email = line[/(<[^@]+@[^>]+>)/]
+    lines_per_user[email] ||= 0
+    lines_per_user[email] += 1
+  }
+end
+
+sum = lines_per_user.values.map(&:to_f).reduce(&:+)
+lines_per_user.sort_by { |k, v| -v }.each do |(email, lines)|
+  puts "%d\t%.1f%%\t%s" % [
+    lines,
+    lines / sum * 100,
+    email
+  ]
+end
