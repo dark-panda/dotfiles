@@ -57,6 +57,7 @@
   ngrep    = grep -A5 -B5
   commit-amend = commit --amend -C HEAD
   ca       = !sh -c 'git commit-amend $@' -
+  ca-no    = !sh -c 'git commit-amend --no-verify $@' -
   cv       = commit -v
   vommit   = commit -v
   show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
