@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+VERBOSE=0
+DBNAME="mysql"
+CONNECTION=""
+
+function show-help() {
+  echo "Usage: $0 [-v] [-b] [-C CONNECTION]"
+  echo
+  echo "Options:"
+  echo
+  echo " -b - show sizes in bytes"
+  echo " -v - verbose"
+  echo " -C - connection options as a string"
+  echo
+}
+
+while getopts ":vbpd:" OPT; do
+  case $OPT in
+    b)
+      CMD="bytes"
+      ;;
+    C)
+      CONNECTION=$OPTARG
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    *)
+      show-help
+      exit
+      ;;
+  esac
+done
+
+if [[ $DBNAME == "" ]]; then
+  echo "ERROR: use -d to set a database name"
+  exit 127
+else
+  echo "Connecting to $DBNAME"
+
+  case $CMD in
+    bytes)
+      SQL='
+SELECT
+  table_schema AS "database",
+  sum(data_length + index_length AS "database size"
+FROM information_schema.tables
+GROUP BY table_schema
+ORDER BY sum(data_length + index_length) DESC;
+'
+      ;;
+
+    *)
+      SQL='
+SELECT
+  table_schema AS "database",
+  round(sum(data_length + index_length) / 1024 / 1024, 1) AS "database size"
+FROM information_schema.tables
+GROUP BY table_schema
+ORDER BY sum(data_length + index_length) DESC;
+'
+      ;;
+  esac
+
+  [[ $VERBOSE == 1 ]] && echo "$SQL"
+
+  mysql $CONNECTION $DBNAME -e "$SQL"
+fi
