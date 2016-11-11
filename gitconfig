@@ -45,7 +45,7 @@
   m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   p-log    = log --patch --parents
   q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  s-log    = stash list --pretty=format:'%Cred%gd - %h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+  s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   svn-diff = diff remotes/git-svn
   x        = !sh -c 'gitx'
