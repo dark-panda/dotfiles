@@ -29,7 +29,7 @@ alias vi='vim'
 alias mysql="env EDITOR='vim -c \"set ft=sql\"' mysql"
 
 # some environment settings
-EDITOR="/opt/local/bin/vim"
+EDITOR="/usr/bin/vim"
 
 # spit out a fortune on login.
 HOME_FORTUNE="$HOME/.fortune"
