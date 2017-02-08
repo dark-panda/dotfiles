@@ -101,3 +101,7 @@ function susu() {
   fi
 }
 
+function fix-terminal() {
+  echo -e "\033c"
+}
+
