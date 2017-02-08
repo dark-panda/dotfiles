@@ -13,7 +13,17 @@ OptionParser.new do |opts|
   opts.on("-f", "--[no-]force", "Force") { |v| options[:force] = v }
 end.parse!
 
-files = Dir.glob('**/{*.{orig,rej},*{.,_}{BACKUP,BASE,LOCAL,REMOTE}{_*,}.*,*~HEAD,*~HEAD_*}')
+files = Dir.glob([
+  '**/*.{orig,rej}',
+  '**/*{_BACKUP_,_BASE_,_LOCAL_,_REMOTE_}*',
+  '**/{*~HEAD,*~HEAD_*}'
+]).reject do |file|
+  if file =~ /_(BACKUP|BASE|LOCAL|REMOTE)_/
+    file !~ /_(BACKUP|BASE|LOCAL|REMOTE)_\d+(\..+)?$/
+  else
+    false
+  end
+end
 
 files.each do |file|
   if !options[:force]
