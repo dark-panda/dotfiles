@@ -74,6 +74,7 @@
   changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
   tidy     = "!sh -c 'git rebase -i @{u}' -"
   back     = "!sh -c 'git checkout -' -"
+  addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
 [pack]
   threads = 0
 [branch]
