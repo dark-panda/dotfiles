@@ -134,7 +134,7 @@ fi
 function-exists vcs_info
 if [[ $? = 0 ]]; then
   zstyle ':vcs_info:*'              enable            git svn svk cvs hg
-  zstyle ':vcs_info:*'              actionformats    ' (%F{red}%s%f %F{cyan}%b%f%F{yellow}|%F{1}%a%F{cyan}) %B%F{yellow}%c%F{red}%u%%b'
+  zstyle ':vcs_info:*'              actionformats    ' (%F{red}%s%f %F{cyan}%b%f%F{yellow}|%F{1}%a%F{cyan}%f) %B%F{yellow}%c%F{red}%u%%b'
   zstyle ':vcs_info:*'              formats          ' (%F{red}%s%f %F{cyan}%b%f) %B%F{yellow}%c%F{red}%u%%b'
   zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat     '%b%F{1}:%F{3}%r'
   zstyle ':vcs_info:*'              check-for-changes true
