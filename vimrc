@@ -105,6 +105,19 @@ if filereadable($HOME."/.vimrc.local.vim")
   source ${HOME}/.vimrc.local.vim
 end
 
+" Move lines...
+" Normal mode
+nnoremap <C-j> :m .+1<CR>==
+nnoremap <C-k> :m .-2<CR>==
+
+" Insert mode
+inoremap <C-j> <ESC>:m .+1<CR>==gi
+inoremap <C-k> <ESC>:m .-2<CR>==gi
+
+" Visual mode
+vnoremap <C-j> :m '>+1<CR>gv=gv
+vnoremap <C-k> :m '<-2<CR>gv=gv
+
 nmap \l :setlocal number!<CR>
 nmap \o :set paste!<CR>
 nmap \e :NERDTreeToggle<CR>
