@@ -75,6 +75,10 @@
   tidy     = "!sh -c 'git rebase -i @{u}' -"
   back     = "!sh -c 'git checkout -' -"
   addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
+  ours     = checkout --ours
+  we       = "!git ours"
+  theirs   = checkout --theirs
+  they     = "!git theirs"
 [pack]
   threads = 0
 [branch]
