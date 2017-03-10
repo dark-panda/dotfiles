@@ -10,6 +10,10 @@ def check_rev_parse(retval, rev)
   end
 end
 
+def open_url(url)
+  `open #{Shellwords.escape(url)}`
+end
+
 github_project = `git config github.project`.strip
 
 if github_project.empty?
@@ -24,28 +28,32 @@ options = {}
 OptionParser.new do |opts|
   opts.on("-b", "--branch", "Branch") { |v| options[:branch] = v }
   opts.on("-o", "--open", "Open") { |v| options[:open] = v }
+  opts.on("-p", "--pulls", "Pulls") { |v| options[:pulls] = v }
 end.parse!
 
-rev = ARGV.last || "HEAD"
-rev_parse, action = if options[:branch]
-  [
-    `git rev-parse --abbrev-ref "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
-    "tree"
-  ]
+if options[:pulls]
+  open_url("https://github.com/#{github_project}/pulls")
 else
-  [
-    `git rev-parse "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
-    "commit"
-  ]
+  rev = ARGV.last || "HEAD"
+  rev_parse, action = if options[:branch]
+    [
+      `git rev-parse --abbrev-ref "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
+      "tree"
+    ]
+  else
+    [
+      `git rev-parse "#{Shellwords.escape(rev)}" 2> /dev/null`.strip,
+      "commit"
+    ]
+  end
+
+  check_rev_parse($?, rev)
+
+  url = "https://github.com/#{github_project}/#{action}/#{rev_parse}"
+
+  if options[:open]
+    open_url(url)
+  else
+    puts url
+  end
 end
-
-check_rev_parse($?, rev)
-
-url = "https://github.com/#{github_project}/#{action}/#{rev_parse}"
-
-if options[:open]
-  `open #{Shellwords.escape(url)}`
-else
-  puts url
-end
-
