@@ -81,6 +81,7 @@ au BufNewFile,BufRead *.ru setf ruby
 au BufNewFile,BufRead *.jbuilder setf ruby
 au BufNewFile,BufRead *.coffee  setf coffee
 au BufNewFile,BufRead *.jst    let b:eruby_subtype = "js" | setf eruby
+au FileType gitcommit set colorcolumn=80
 
 " Append modeline after last line in buffer.
 " Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
