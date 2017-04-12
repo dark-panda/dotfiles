@@ -99,6 +99,7 @@ if has("autocmd")
 endif
 
 set modeline
+set modelines=1
 let g:local_vimrc=".vimrc_local"
 set tags+=gems.tags
 
