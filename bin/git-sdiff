@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+COLUMNS=`tput cols`
+
+if type colordiff &>/dev/null; then
+  DIFF='colordiff'
+else
+  DIFF='cat'
+fi
+
+git difftool -y -x "sdiff -w ${COLUMNS}" $@ | $DIFF | less -R
