@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'shellwords'
+
+def run_fix(what, from, to, rev_list)
+  system("git fix-authors #{what} #{Shellwords.escape(from)} #{Shellwords.escape(to)} #{Shellwords.escape(rev_list)}")
+end
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.on('--from-email=', 'From email') { |v| options[:from_email] = v }
+  opts.on('--to-email=', 'To email') { |v| options[:to_email] = v }
+  opts.on('--from-name=', 'From name') { |v| options[:from_name] = v }
+  opts.on('--to-name=', 'To name') { |v| options[:to_name] = v }
+  opts.on('--rev-list=', 'Rev list') { |v| options[:rev_list] = v }
+end.parse!
+
+unless options.key?(:rev_list)
+  puts "ERROR: You need to specify a rev-list!"
+  exit(1)
+end
+
+if options.key?(:from_email) ^ options.key?(:to_email)
+  puts "ERROR: You'll need to specify both from-email and to-email!"
+  exit(1)
+elsif options.key?(:from_email) && options.key?(:to_email)
+  run_fix('COMMITTER_EMAIL', options[:from_email], options[:to_email], options[:rev_list])
+  run_fix('AUTHOR_EMAIL', options[:from_email], options[:to_email], options[:rev_list])
+end
+
+if options.key?(:from_name) ^ options.key?(:to_name)
+  puts "ERROR: You'll need to specify both from-name and to-name!"
+  exit(1)
+elsif options.key?(:from_name) && options.key?(:to_name)
+  run_fix('COMMITTER_NAME', options[:from_name], options[:to_name], options[:rev_list])
+  run_fix('AUTHOR_NAME', options[:from_name], options[:to_name], options[:rev_list])
+end
