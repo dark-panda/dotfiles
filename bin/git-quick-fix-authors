@@ -22,18 +22,12 @@ unless options.key?(:rev_list)
   exit(1)
 end
 
-if options.key?(:from_email) ^ options.key?(:to_email)
-  puts "ERROR: You'll need to specify both from-email and to-email!"
-  exit(1)
-elsif options.key?(:from_email) && options.key?(:to_email)
-  run_fix('COMMITTER_EMAIL', options[:from_email], options[:to_email], options[:rev_list])
-  run_fix('AUTHOR_EMAIL', options[:from_email], options[:to_email], options[:rev_list])
+if options.key?(:to_email)
+  run_fix('COMMITTER_EMAIL', options[:from_email] || '.', options[:to_email], options[:rev_list])
+  run_fix('AUTHOR_EMAIL', options[:from_email] || '.', options[:to_email], options[:rev_list])
 end
 
-if options.key?(:from_name) ^ options.key?(:to_name)
-  puts "ERROR: You'll need to specify both from-name and to-name!"
-  exit(1)
-elsif options.key?(:from_name) && options.key?(:to_name)
-  run_fix('COMMITTER_NAME', options[:from_name], options[:to_name], options[:rev_list])
-  run_fix('AUTHOR_NAME', options[:from_name], options[:to_name], options[:rev_list])
+if options.key?(:to_name)
+  run_fix('COMMITTER_NAME', options[:from_name] || '.', options[:to_name], options[:rev_list])
+  run_fix('AUTHOR_NAME', options[:from_name] || '.', options[:to_name], options[:rev_list])
 end
