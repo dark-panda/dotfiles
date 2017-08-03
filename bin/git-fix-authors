@@ -27,8 +27,7 @@ REV_LIST=$4
 echo "$WHAT - $FROM => $TO"
 
 git filter-branch -f --env-filter "
-  if [ \"\$$WHAT\" = \"$FROM\" ]; then
+  if (echo \"\$$WHAT\" | grep -Eq \"$FROM\"); then
     export $WHAT=\"$TO\";
   fi
   " $REV_LIST
-
