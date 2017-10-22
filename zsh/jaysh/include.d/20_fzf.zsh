@@ -151,6 +151,16 @@ _fzf_complete_unalias() {
   )
 }
 
+_fzf_complete_pass() {
+  local pwdir=${PASSWORD_STORE_DIR-~/.password-store/}
+  local stringsize="${#pwdir}"
+  let "stringsize+=1"
+
+  _fzf_complete '+m' "$@" < <(
+    command find -L "$pwdir" -name "*.gpg" -print | cut -c "$stringsize"- | sed -e 's/\(.*\)\.gpg/\1/'
+  )
+}
+
 fzf-completion() {
   local tokens cmd prefix trigger tail fzf matches lbuf d_cmds
   setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
