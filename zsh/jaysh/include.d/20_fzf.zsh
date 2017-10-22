@@ -13,13 +13,12 @@
 { which fzf >& /dev/null } || return
 
 FZF_DEFAULT_OPTS='--height 80%'
-FZF_COMPLETION_OPTS='--preview ''[[ $(file --mime {}) =~ binary ]] &&
+FZF_CTRL_T_OPTS='--preview ''[[ $(file --mime {}) =~ binary ]] &&
  echo {} is a binary file ||
  (highlight -O ansi -l {} ||
     coderay {} ||
     rougify {} ||
     cat {}) 2> /dev/null | head -500'''
-FZF_CTRL_T_OPTS=$FZF_COMPLETION_OPTS
 
 # To use custom commands instead of find, override _fzf_compgen_{path,dir}
 if ! declare -f _fzf_compgen_path > /dev/null; then
