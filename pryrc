@@ -45,7 +45,7 @@ if defined?(AwesomePrint)
     printed = value.ai
 
     if printed.count("\n") >= 30
-      Pry::Helpers::BaseHelpers.stagger_output("=> #{printed}", output)
+      Pry.new.pager.page "=> #{printed}"
     else
       output.puts(printed)
     end
