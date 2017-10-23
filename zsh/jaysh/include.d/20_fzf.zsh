@@ -12,6 +12,7 @@
 
 { which fzf >& /dev/null } || return
 
+FZF_COMPLETION_TRIGGER='//'
 FZF_DEFAULT_OPTS='--height 80%'
 FZF_CTRL_T_OPTS='--preview ''[[ $(file --mime {}) =~ binary ]] &&
  echo {} is a binary file ||
