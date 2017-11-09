@@ -1,111 +1,117 @@
 # vim: ft=gitconfig
 
 [sendemail]
-  multiedit = true
-  suppresscc = self
-  smtpserver = smtp.gmail.com
-  smtpserverport = 587
-  smtpencryption = tls
+	multiedit = true
+	suppresscc = self
+	smtpserver = smtp.gmail.com
+	smtpserverport = 587
+	smtpencryption = tls
 [color]
-  ui = true
+	ui = true
 [filemerge]
-  executable = vimdiff
+	executable = vimdiff
 [merge]
-  tool = vimdiff
-  ff = only
+	tool = vimdiff
+	ff = only
 [core]
-  whitespace = error,trailing-space,cr-at-eol,-blank-at-eof,tab-in-indent
-  excludesfile = .gitignore.local
-  editor = /usr/bin/vim
-  pager = /usr/bin/less -XRS -x4
+	whitespace = error,trailing-space,cr-at-eol,-blank-at-eof,tab-in-indent
+	excludesfile = .gitignore.local
+	editor = /usr/bin/vim
+	pager = /usr/bin/less -XRS -x4
 [color "diff"]
-  whitespace = red reverse
+	whitespace = red reverse
 [user]
-  name = J Smith
-  email = dark.panda@gmail.com
+	name = J Smith
+	email = dark.panda@gmail.com
 [gui]
-  fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
-  fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+	fontui   = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family Inconsolata -size 14 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
-  default = simple
+	default = simple
 [grep]
-  extendedRegexp = true
-  patternType = perl
+	extendedRegexp = true
+	patternType = perl
 [gc]
-  autodetach = true
+	autodetach = true
 [alias]
-  # shortcuts
-  ca       = !sh -c 'git commit-amend $@' -
-  ca-no    = !sh -c 'git commit-amend --no-verify $@' -
-  co       = checkout
-  cp       = cherry-pick
-  cv       = commit -v
-  stat     = status
-  x        = !sh -c 'gitx'
+	# shortcuts
+	ca       = !sh -c 'git commit-amend $@' -
+	ca-no    = !sh -c 'git commit-amend --no-verify $@' -
+	co       = checkout
+	cp       = cherry-pick
+	cv       = commit -v
+	stat     = status
+	x        = !sh -c 'gitx'
 
-  # git-svn helpers
-  dcommit  = svn dcommit
-  svn-diff = diff remotes/git-svn
+	# git-svn helpers
+	dcommit  = svn dcommit
+	svn-diff = diff remotes/git-svn
 
-  # log views
-  c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
-  e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  f-log    = whatchanged --graph --parents
-  g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
-  m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  p-log    = log --patch --parents
-  q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	# log views
+	c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+	e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	f-log    = whatchanged --graph --parents
+	g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
+	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	p-log    = log --patch --parents
+	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
 
-  # grep helpers
-  igrep    = grep --no-index
-  ngrep    = grep -A5 -B5
+	# grep helpers
+	igrep    = grep --no-index
+	ngrep    = grep -A5 -B5
 
-  # merge helpers
-  ours     = checkout --ours
-  we       = "!git ours"
-  theirs   = checkout --theirs
-  they     = "!git theirs"
+	# merge helpers
+	ours     = checkout --ours
+	we       = "!git ours"
+	theirs   = checkout --theirs
+	they     = "!git theirs"
 
-  # misc helpers
-  addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
-  back     = "!sh -c 'git checkout -' -"
-  changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
-  cleanup  = "!git frune && git prune && git gc --aggressive"
-  commit-amend = commit --amend -C HEAD
-  dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
-  frune    = fetch --prune
-  fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
-  locate   = "!git ls-files | grep -i"
-  ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
-  odiff    = "!sh -c 'git diff @{u}' -"
-  ostat    = "!sh -c 'git diff --stat @{u}' -"
-  pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
-  show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
-  show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
-  tidy     = "!sh -c 'git rebase -i @{u}' -"
-  up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
-  vommit   = commit -v
-  whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
-  ws       = diff-index --color --check HEAD
+	# misc helpers
+	addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
+	back     = "!sh -c 'git checkout -' -"
+	changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
+	cleanup  = "!git frune && git prune && git gc --aggressive"
+	commit-amend = commit --amend -C HEAD
+	dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
+	frune    = fetch --prune
+	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
+	locate   = "!git ls-files | grep -i"
+	ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
+	odiff    = "!sh -c 'git diff @{u}' -"
+	ostat    = "!sh -c 'git diff --stat @{u}' -"
+	pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
+	show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
+	show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
+	tidy     = "!sh -c 'git rebase -i @{u}' -"
+	up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
+	vommit   = commit -v
+	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
+	ws       = diff-index --color --check HEAD
 
 [pack]
-  threads = 0
+	threads = 0
 [branch]
-  autosetuprebase = always
+	autosetuprebase = always
 [hooks "pre-commit"]
-  enabled = true
-  whitespace-rb = true
+	enabled = true
+	whitespace-rb = true
 [hooks "post-checkout"]
-  enabled = true
-  update-submodules-rb = true
-  check-bundle-rb = true
+	enabled = true
+	update-submodules-rb = true
+	check-bundle-rb = true
 [hooks "post-merge"]
-  enabled = true
-  update-submodules-rb = true
-  check-bundle-rb = true
+	enabled = true
+	update-submodules-rb = true
+	check-bundle-rb = true
 [filter "media"]
-  required = true
-  clean = git media clean %f
-  smudge = git media smudge %f
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[rerere]
+	enabled = true
