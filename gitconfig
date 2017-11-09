@@ -34,10 +34,20 @@
 [gc]
   autodetach = true
 [alias]
-  stat     = status
+  # shortcuts
+  ca       = !sh -c 'git commit-amend $@' -
+  ca-no    = !sh -c 'git commit-amend --no-verify $@' -
   co       = checkout
-  ws       = diff-index --color --check HEAD
+  cp       = cherry-pick
+  cv       = commit -v
+  stat     = status
+  x        = !sh -c 'gitx'
+
+  # git-svn helpers
   dcommit  = svn dcommit
+  svn-diff = diff remotes/git-svn
+
+  # log views
   c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
   e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   f-log    = whatchanged --graph --parents
@@ -47,38 +57,39 @@
   q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
   t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-  svn-diff = diff remotes/git-svn
-  x        = !sh -c 'gitx'
-  whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
-  up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
-  cp       = cherry-pick
-  commit   = commit --verbose
+
+  # grep helpers
   igrep    = grep --no-index
   ngrep    = grep -A5 -B5
-  commit-amend = commit --amend -C HEAD
-  ca       = !sh -c 'git commit-amend $@' -
-  ca-no    = !sh -c 'git commit-amend --no-verify $@' -
-  cv       = commit -v
-  vommit   = commit -v
-  show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
-  show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
-  frune    = fetch --prune
-  locate   = "!git ls-files | grep -i"
-  ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
-  odiff    = "!sh -c 'git diff @{u}' -"
-  ostat    = "!sh -c 'git diff --stat @{u}' -"
-  cleanup  = "!git frune && git prune && git gc --aggressive"
-  dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
-  pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
-  fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
-  changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
-  tidy     = "!sh -c 'git rebase -i @{u}' -"
-  back     = "!sh -c 'git checkout -' -"
-  addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
+
+  # merge helpers
   ours     = checkout --ours
   we       = "!git ours"
   theirs   = checkout --theirs
   they     = "!git theirs"
+
+  # misc helpers
+  addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
+  back     = "!sh -c 'git checkout -' -"
+  changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
+  cleanup  = "!git frune && git prune && git gc --aggressive"
+  commit-amend = commit --amend -C HEAD
+  dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
+  frune    = fetch --prune
+  fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
+  locate   = "!git ls-files | grep -i"
+  ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
+  odiff    = "!sh -c 'git diff @{u}' -"
+  ostat    = "!sh -c 'git diff --stat @{u}' -"
+  pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
+  show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
+  show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
+  tidy     = "!sh -c 'git rebase -i @{u}' -"
+  up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
+  vommit   = commit -v
+  whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
+  ws       = diff-index --color --check HEAD
+
 [pack]
   threads = 0
 [branch]
