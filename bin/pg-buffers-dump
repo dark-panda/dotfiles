@@ -134,5 +134,5 @@ ORDER BY c.relname, usagecount"
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -q -d $DBNAME $CONNECTION -c "$SQL"
+  psql -X -q -d $DBNAME $CONNECTION -c "$SQL"
 done

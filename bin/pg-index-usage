@@ -63,7 +63,7 @@ fi
 for DBNAME in $@; do
   echo "Connecting to $DBNAME"
   SQL="SELECT array_to_string(array_agg(nspname), ',') FROM pg_namespace WHERE NOT nspname ~* '^pg_';"
-  SCHEMAS=`psql -d $DBNAME -t $CONNECTION -c "$SQL"`
+  SCHEMAS=`psql -X -d $DBNAME -t $CONNECTION -c "$SQL"`
 
   case $CMD in
     summary)
@@ -226,5 +226,5 @@ ORDER BY idstat.relname, indexrelname;"
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME $CONNECTION -c "$SQL"
+  psql -X -d $DBNAME $CONNECTION -c "$SQL"
 done

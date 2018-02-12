@@ -80,5 +80,5 @@ ORDER BY c.relpages DESC;
 
   [[ $VERBOSE == 1 ]] && echo "$SQL"
 
-  psql -d $DBNAME $CONNECTION -c "$SQL"
+  psql -X -d $DBNAME $CONNECTION -c "$SQL"
 done
