@@ -163,6 +163,12 @@ _fzf_complete_pass() {
   )
 }
 
+_fzf_complete_git() {
+  _fzf_complete '+m' "$@" < <(
+    command git for-each-ref --format='%(refname:lstrip=-1)' refs/heads refs/tags/
+  )
+}
+
 fzf-completion() {
   local tokens cmd prefix trigger tail fzf matches lbuf d_cmds
   setopt localoptions noshwordsplit noksh_arrays noposixbuiltins
