@@ -1,4 +1,4 @@
-# vim: ft=gitconfig
+# vim: ft=gitconfig noexpandtab
 
 [sendemail]
 	multiedit = true
