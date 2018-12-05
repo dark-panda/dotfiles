@@ -105,3 +105,7 @@ function fix-terminal() {
   echo -e "\033c"
 }
 
+function give-thing() {
+  echo "༼ つ ◕_◕ ༽つ $1 ༼ つ ◕_◕ ༽つ"
+}
+
