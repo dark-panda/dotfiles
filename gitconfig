@@ -64,9 +64,9 @@
 
 	# merge helpers
 	ours     = checkout --ours
-	we       = "!git ours"
+	they     = "!git ours"
 	theirs   = checkout --theirs
-	they     = "!git theirs"
+	we       = "!git theirs"
 
 	# misc helpers
 	addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
