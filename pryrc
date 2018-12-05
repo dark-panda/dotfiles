@@ -88,11 +88,11 @@ hostname = __pry_color_ui__(
 
 Pry.config.prompt = [
   proc { |target_self, nest_level, pry|
-    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_array.size}]#{":#{nest_level}" unless nest_level.zero?} >> "
+    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?} >> "
   },
 
   proc { |target_self, nest_level, pry|
-    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_array.size}]#{":#{nest_level}" unless nest_level.zero?}  | "
+    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?}  | "
   }
 ]
 
