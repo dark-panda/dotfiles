@@ -57,6 +57,7 @@
 	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
 	s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
 	t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	sorted-log = "!sh -c 'git log --no-merges --graph --date=iso --pretty=format:\"%C(cyan)%ad%Creset - %Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset\" $@ | sort -r | less -R' -"
 
 	# grep helpers
 	igrep    = grep --no-index
@@ -69,12 +70,14 @@
 	we       = "!git theirs"
 
 	# misc helpers
+	abort    = "!sh -c '[ -f .git/REBASE_HEAD ] && git rebase --abort || [ -f .git/MERGE_HEAD ] && git merge --abort || [ -f .git/CHERRY_PICK_HEAD ] && git cherry-pick --abort' -"
+	continue = "!sh -c '[ -f .git/REBASE_HEAD ] && git rebase --continue || [ -f .git/MERGE_HEAD ] && git merge --continue || [ -f .git/CHERRY_PICK_HEAD ] && git cherry-pick --continue' -"
 	addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
 	back     = "!sh -c 'git checkout -' -"
 	changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
 	cleanup  = "!git frune && git prune && git gc --aggressive"
 	commit-amend = commit --amend -C HEAD
-	drop-branch = "!sh -c 'git push origin :$1 && git branch -D $1' -"
+	drop-branch = "!sh -c '[ -z "$1" ] || git push origin :$1 && git branch -D $1' -"
 	dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
 	frune    = fetch --prune
 	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
@@ -87,6 +90,7 @@
 	show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
 	tidy     = "!sh -c 'git rebase -i @{u}' -"
 	up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
+	valley-of-the-damned = "!sh -c 'git log --graph --topo-order -m -u $@;' -"
 	vommit   = commit -v
 	wha-happen = "!git diff --name-only ${@:-HEAD~..}"
 	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
