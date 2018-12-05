@@ -49,8 +49,7 @@ __fzfcmd_complete() {
 
 __fzf_generic_path_completion() {
   local base lbuf compgen fzf_opts suffix tail fzf dir leftover matches
-  # (Q) flag removes a quoting level: "foo\ bar" => "foo bar"
-  base=${(Q)1}
+  base=$1
   lbuf=$2
   compgen=$3
   fzf_opts=$4
@@ -59,14 +58,14 @@ __fzf_generic_path_completion() {
   fzf="$(__fzfcmd_complete)"
 
   setopt localoptions nonomatch
-  dir="$base"
+  eval "base=$base"
+  [[ $base = *"/"* ]] && dir="$base"
   while [ 1 ]; do
-    if [[ -z "$dir" || -d ${~dir} ]]; then
+    if [[ -z "$dir" || -d ${dir} ]]; then
       leftover=${base/#"$dir"}
       leftover=${leftover/#\/}
       [ -z "$dir" ] && dir='.'
       [ "$dir" != "/" ] && dir="${dir/%\//}"
-      dir=${~dir}
       matches=$(eval "$compgen $(printf %q "$dir")" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_COMPLETION_OPTS" ${=fzf} ${=fzf_opts} -q "$leftover" | while read item; do
         echo -n "${(q)item}$suffix "
       done)
@@ -74,8 +73,7 @@ __fzf_generic_path_completion() {
       if [ -n "$matches" ]; then
         LBUFFER="$lbuf$matches$tail"
       fi
-      zle redisplay
-      typeset -f zle-line-init >/dev/null && zle zle-line-init
+      zle reset-prompt
       break
     fi
     dir=$(dirname "$dir")
@@ -114,8 +112,7 @@ _fzf_complete() {
   if [ -n "$matches" ]; then
     LBUFFER="$lbuf$matches"
   fi
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  zle reset-prompt
   command rm -f "$fifo"
 }
 
@@ -128,7 +125,7 @@ _fzf_complete_telnet() {
 
 _fzf_complete_ssh() {
   _fzf_complete '+m' "$@" < <(
-    command cat <(cat ~/.ssh/config /etc/ssh/ssh_config 2> /dev/null | command grep -i '^host' | command grep -v '*' | awk '{for (i = 2; i <= NF; i++) print $1 " " $i}') \
+    command cat <(cat ~/.ssh/config /etc/ssh/ssh_config 2> /dev/null | command grep -i '^host ' | command grep -v '[*?]' | awk '{for (i = 2; i <= NF; i++) print $1 " " $i}') \
         <(command grep -oE '^[[a-z0-9.,:-]+' ~/.ssh/known_hosts | tr ',' '\n' | tr -d '[' | awk '{ print $1 " " $1 }') \
         <(command grep -v '^\s*\(#\|$\)' /etc/hosts | command grep -Fv '0.0.0.0') |
         awk '{if (length($2) > 0) {print $2}}' | sort -u
@@ -195,8 +192,7 @@ fzf-completion() {
     if [ -n "$matches" ]; then
       LBUFFER="$LBUFFER$matches"
     fi
-    zle redisplay
-    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    zle reset-prompt
   # Trigger sequence given
   elif [ ${#tokens} -gt 1 -a "$tail" = "$trigger" ]; then
     d_cmds=(${=FZF_COMPLETION_DIR_COMMANDS:-cd pushd rmdir})
@@ -259,12 +255,21 @@ __fzfcmd() {
 fzf-file-widget() {
   LBUFFER="${LBUFFER}$(__fsel)"
   local ret=$?
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  zle reset-prompt
   return $ret
 }
 zle     -N   fzf-file-widget
 bindkey '^T' fzf-file-widget
+
+# Ensure precmds are run after cd
+fzf-redraw-prompt() {
+  local precmd
+  for precmd in $precmd_functions; do
+    $precmd
+  done
+  zle reset-prompt
+}
+zle -N fzf-redraw-prompt
 
 # ALT-C - cd into the selected directory
 fzf-cd-widget() {
@@ -278,8 +283,7 @@ fzf-cd-widget() {
   fi
   cd "$dir"
   local ret=$?
-  zle reset-prompt
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  zle fzf-redraw-prompt
   return $ret
 }
 zle     -N    fzf-cd-widget
@@ -298,8 +302,7 @@ fzf-history-widget() {
       zle vi-fetch-history -n $num
     fi
   fi
-  zle redisplay
-  typeset -f zle-line-init >/dev/null && zle zle-line-init
+  zle reset-prompt
   return $ret
 }
 zle     -N   fzf-history-widget
