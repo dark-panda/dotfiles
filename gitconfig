@@ -83,7 +83,7 @@
 	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
 	locate   = "!git ls-files | grep -i"
 	ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
-	odiff    = "!sh -c 'git diff @{u}' -"
+	odiff    = "!sh -c 'git diff $@ @{u}' -"
 	ostat    = "!sh -c 'git diff --stat @{u}' -"
 	pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
 	show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
