@@ -86,6 +86,7 @@
 	odiff    = "!sh -c 'git diff $@ @{u}' -"
 	ostat    = "!sh -c 'git diff --stat @{u}' -"
 	pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
+	reset-to-origin = "!sh -c 'git reset --hard origin/`git rev-parse --abbrev-ref HEAD`' -"
 	show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
 	show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
 	tidy     = "!sh -c 'git rebase -i @{u}' -"
