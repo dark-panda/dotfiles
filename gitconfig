@@ -49,15 +49,15 @@
 
 	# log views
 	c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
-	e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
 	f-log    = whatchanged --graph --parents
 	g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
-	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
+	m-log    = log --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
 	p-log    = log --patch --parents
-	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-	s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-	t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset'
-	sorted-log = "!sh -c 'git log --no-merges --graph --date=iso --pretty=format:\"%C(cyan)%ad%Creset - %Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset\" $@ | sort -r | less -R' -"
+	q-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
+	s-log    = log --no-merges --graph --stat --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
+	t-log    = log --no-merges --no-walk --tags --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
+	sorted-log = "!sh -c 'git log --no-merges --graph --date=iso --pretty=format:\"%C(cyan)%ad%Creset - %Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset\" $@ | sort -r | less -R' -"
 
 	# grep helpers
 	igrep    = grep --no-index
