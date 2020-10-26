@@ -1,21 +1,32 @@
 #!/usr/bin/env ruby
 
 require 'shellwords'
+require 'mimemagic'
 
 lines_per_user = {}
 args = if ARGV.empty?
-  `git ls-files`.split
+  `git ls-files | grep '^app/'`.split
 else
   ARGV
 end
 
 args.each do |arg|
+  type = MimeMagic.by_path(arg)
+
+  next if %w{ image application }.include?(type&.mediatype)
+
+  puts arg
+  puts type&.mediatype
   blame = `git blame -e #{Shellwords.escape(arg)}`
 
-  lines = blame.each_line.map { |line|
-    email = line[/(<[^@]+@[^>]+>)/]
-    lines_per_user[email] ||= 0
-    lines_per_user[email] += 1
+  lines = blame.lines.map { |line|
+    begin
+      email = line[/(<[^@]+@[^>]+>)/]
+      lines_per_user[email] ||= 0
+      lines_per_user[email] += 1
+    rescue ArgumentError
+      # no-op
+    end
   }
 end
 
