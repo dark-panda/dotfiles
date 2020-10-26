@@ -1,5 +1,6 @@
 
 alias ll='ls -l'
+alias lh='ls -lh'
 alias dir='ls'
 alias links='elinks'
 alias cp='cp -i'
