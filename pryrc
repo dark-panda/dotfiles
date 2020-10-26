@@ -86,14 +86,34 @@ hostname = __pry_color_ui__(
   end
 )
 
-Pry.config.prompt = [
-  proc { |target_self, nest_level, pry|
-    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?} >> "
-  },
+if defined?(AwesomePrint)
+  Pry.config.print = proc { |output, value|
+    printed = value.ai
 
-  proc { |target_self, nest_level, pry|
-    "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?}  | "
+    if printed.count("\n") >= 30
+      Pry.new.pager.page "=> #{printed}"
+    else
+      output.puts(printed)
+    end
   }
-]
+end
+
+Pry.config.prompt = Pry.config.prompt = Pry::Prompt.new(
+  'prompt',
+  'prompt 2',
+  [
+    proc { |target_self, nest_level, pry|
+      "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?} >> "
+    },
+
+    proc { |target_self, nest_level, pry|
+      "#{current_app}@#{hostname}(#{Pry.view_clip(target_self)})[#{pry.input_ring.size}]#{":#{nest_level}" unless nest_level.zero?}  | "
+    }
+  ]
+)
+
+def table(objects)
+  puts Hirb::Helpers::AutoTable.render(objects)
+end
 
 # vim: set ft=ruby:
