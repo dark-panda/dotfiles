@@ -10,6 +10,7 @@
 \pset null '[NULL]'
 
 \x auto
+\set VERBOSITY verbose
 
 \set PROMPT1 '%n:%/@%[%033[1;33;40m%]%M%[%033[0m%]%R%# '
 \set PROMPT2 '%n:%/@%[%033[1;33;40m%]%M%[%033[0m%]%R%# '
