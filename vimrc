@@ -95,6 +95,7 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 set modeline
 set modelines=1
+set cc=80
 let g:local_vimrc=".vimrc_local"
 
 if filereadable($HOME."/.vimrc.local.vim")
