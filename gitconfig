@@ -49,6 +49,7 @@
 
 	# log views
 	c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+	d-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai)%Creset'
 	e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
 	f-log    = whatchanged --graph --parents
 	g-log    = log --pretty=format:user:%aN%n%ct --reverse --raw --encoding=UTF-8 --no-renames
@@ -74,17 +75,22 @@
 	continue = "!sh -c '[ -f .git/REBASE_HEAD ] && git rebase --continue || [ -f .git/MERGE_HEAD ] && git merge --continue || [ -f .git/CHERRY_PICK_HEAD ] && git cherry-pick --continue' -"
 	addnw    = "!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero' -"
 	back     = "!sh -c 'git checkout -' -"
+	backup   = "!sh -c 'git tag --force $@ old-`git current` origin/`git current`' -"
+	bush		 = "!sh -c 'git backup && git fush' -"
 	changes  = "!sh -c 'git diff-tree --no-commit-id --name-status -r ${1:-HEAD}' -"
 	cleanup  = "!git frune && git prune && git gc --aggressive"
 	commit-amend = commit --amend -C HEAD
+	current  = rev-parse --abbrev-ref HEAD
 	drop-branch = "!sh -c '[ -z "$1" ] || git push origin :$1 && git branch -D $1' -"
 	dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
 	frune    = fetch --prune
-	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force; else echo \"ERROR: You can''t fush master!\"; fi' -"
+	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force-with-lease; else echo \"ERROR: You can''t fush master!\"; fi' -"
+	gone     = "!git branch -vv | grep gone"
 	locate   = "!git ls-files | grep -i"
 	ocherry  = "!sh -c 'BRANCH=${1:-`git rev-parse --abbrev-ref HEAD`}; git cherry -v $BRANCH origin/$BRANCH' -"
 	odiff    = "!sh -c 'git diff $@ @{u}' -"
 	ostat    = "!sh -c 'git diff --stat @{u}' -"
+	originate = "!sh -c 'git reset --hard $@ @{u}' -"
 	pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
 	reset-to-origin = "!sh -c 'git reset --hard origin/`git rev-parse --abbrev-ref HEAD`' -"
 	show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
@@ -94,6 +100,7 @@
 	valley-of-the-damned = "!sh -c 'git log --graph --topo-order -m -u $@;' -"
 	vommit   = commit -v
 	wha-happen = "!git diff --name-only ${@:-HEAD~..}"
+	whitespace = "!git diff-tree --check $(git hash-object -t tree /dev/null) HEAD"
 	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
 	ws       = diff-index --color --check HEAD
 
@@ -117,8 +124,9 @@
 	clean = git media clean %f
 	smudge = git media smudge %f
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
 	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 [rerere]
 	enabled = true
