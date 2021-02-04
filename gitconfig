@@ -18,6 +18,7 @@
 	excludesfile = .gitignore.local
 	editor = /usr/bin/vim
 	pager = /usr/bin/less -XRS -x4
+	#pager = /usr/share/vim/vim74/macros/less.sh
 [color "diff"]
 	whitespace = red reverse
 [user]
@@ -83,6 +84,7 @@
 	current  = rev-parse --abbrev-ref HEAD
 	drop-branch = "!sh -c '[ -z "$1" ] || git push origin :$1 && git branch -D $1' -"
 	dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
+	experiments = "!f() { git branch | grep 'experiment-'; }; f"
 	frune    = fetch --prune
 	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force-with-lease; else echo \"ERROR: You can''t fush master!\"; fi' -"
 	gone     = "!git branch -vv | grep gone"
@@ -93,13 +95,14 @@
 	originate = "!sh -c 'git reset --hard $@ @{u}' -"
 	pushup   = "!sh -c 'git push --set-upstream ${1:-origin} `git rev-parse --abbrev-ref HEAD`' -"
 	reset-to-origin = "!sh -c 'git reset --hard origin/`git rev-parse --abbrev-ref HEAD`' -"
+	rewind   = reset --hard HEAD~
 	show-stashes = "!sh -c 'if [ -n \"`git stash list`\" ]; then git show `git stash list --pretty=format:\"%gd\"`; else echo \"No stashes found\"; fi'"
 	show-unreachable = "!sh -c \"git fsck --unreachable | grep commit | awk '{print \\$3}' | xargs git show\" -"
 	tidy     = "!sh -c 'git rebase -i @{u}' -"
 	up       = "!sh -c 'if [ -d .git/svn ]; then git svn rebase; else git pull --rebase $@; fi' -"
 	valley-of-the-damned = "!sh -c 'git log --graph --topo-order -m -u $@;' -"
 	vommit   = commit -v
-	wha-happen = "!git diff --name-only ${@:-HEAD~..}"
+	wha-happen = "!sh -c 'git diff --name-only ${@:-HEAD~..}' -"
 	whitespace = "!git diff-tree --check $(git hash-object -t tree /dev/null) HEAD"
 	whois    = !sh -c 'git log -i -1 --pretty=\"format::%an <%ae>\n\" --author=\"$1\"' -
 	ws       = diff-index --color --check HEAD
@@ -124,9 +127,21 @@
 	clean = git media clean %f
 	smudge = git media smudge %f
 [filter "lfs"]
-	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+	required = true
 [rerere]
 	enabled = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[log]
+	mailmap = true
+[commit]
+	template = /Users/jay/.stCommitMsg
+[credential]
+	username = dark-panda
