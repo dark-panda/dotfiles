@@ -3,6 +3,8 @@
 require 'optparse'
 require 'shellwords'
 
+ENV['FILTER_BRANCH_SQUELCH_WARNING'] = 'true'
+
 def run_fix(what, from, to, rev_list)
   system("git fix-authors #{what} #{Shellwords.escape(from)} #{Shellwords.escape(to)} #{Shellwords.escape(rev_list)}")
 end
