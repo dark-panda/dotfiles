@@ -13,12 +13,16 @@ OptionParser.new do |opts|
   opts.on("-f", "--[no-]force", "Force") { |v| options[:force] = v }
 end.parse!
 
+git_files = `git ls-files`.lines.collect(&:strip)
+
 files = Dir.glob([
   '**/*.{orig,rej}',
   '**/*{_BACKUP_,_BASE_,_LOCAL_,_REMOTE_}*',
   '**/{*~HEAD,*~HEAD_*}'
 ]).reject do |file|
-  if file =~ /_(BACKUP|BASE|LOCAL|REMOTE)_/
+  if git_files.include?(file)
+    true
+  elsif file =~ /_(BACKUP|BASE|LOCAL|REMOTE)_/
     file !~ /_(BACKUP|BASE|LOCAL|REMOTE)_\d+(\..+)?$/
   else
     false
