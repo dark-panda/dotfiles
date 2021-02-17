@@ -91,20 +91,18 @@ options = {
 OptionParser.new do |opts|
   opts.on("-v", "--[no-]verbose", "Verbose") { |v| options[:verbose] = v }
   opts.on("-s", "--[no-]stat", "Show stat graph") { |v| options[:stat] = v }
-  opts.on("-m", "--[no-]more", "Show more details") { |v| options[:more] = v }
+  opts.on("--[no-]more", "Show more details") { |v| options[:more] = v }
   opts.on("-o", "--[no-]obfuscate", "Obfuscate") { |v| options[:obfuscate] = v }
   opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
   opts.on("-e", "--show-email", "Display email") { |v| options[:email] = v }
   opts.on("-c", "--commits", "Sort by commits") { |v| options[:commits] = true }
 end.parse!
 
-args = if !ARGV.empty?
-  Shellwords.escape(ARGV.join(" "))
-end
+args = ARGV.collect(&:shellescape)
 
 contributor_format = if options[:mailmap]
   if options[:email]
-    '%aN - %ae'
+    '%aN - %aE'
   else
     '%aN'
   end
@@ -114,7 +112,7 @@ else
   '%an - %ae'
 end
 
-cmd = %{git log --format="Author: #{contributor_format}" --numstat #{args}}
+cmd = %{git log --format="Author: #{contributor_format}" --numstat #{args.join(' ')}}
 author = nil
 
 `#{cmd}`.each_line do |l|
@@ -179,7 +177,7 @@ to_sort.sort_by { |_, c| -c }.each do |author, c|
       puts
     }
 
-    more_proc.("Additions", lines_added)
-    more_proc.("Deletions", lines_deleted)
+    more_proc.call("Additions", lines_added)
+    more_proc.call("Deletions", lines_deleted)
   end
 end
