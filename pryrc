@@ -9,24 +9,12 @@ rescue LoadError
 end unless ENV['NO_AWESOME_PRINT'] || defined?(AwesomePrint)
 
 begin
-  require 'brice'
-rescue LoadError
-  puts 'Brice not found'
-end unless ENV['NO_BRICE'] || defined?(Brice)
-
-begin
   require 'term/ansicolor'
 rescue LoadError
   puts 'Term::ANSIColor not found'
 end unless ENV['NO_COLOR'] || defined?(Term::ANSIColor)
 
 ENV['PAGER'] = nil
-
-if defined?(Brice)
-  Brice.init { |config|
-    config.exclude(:added_methods)
-  }
-end
 
 if RUBY_VERSION >= '1.9.3' && defined?(Term) && defined?(Term::ANSIColor) #&& false
   def __pry_color_ui__(msg, *colors)
