@@ -2,22 +2,43 @@
 
 require 'shellwords'
 require 'mimemagic'
+require 'progressbar'
 
+files = []
 lines_per_user = {}
-args = if ARGV.empty?
-  `git ls-files | grep '^app/'`.split
+git_files = `git ls-files`.lines.collect(&:strip)
+
+if ARGV.empty?
+  files = git_files
 else
-  ARGV
+  ARGV.each do |arg|
+    if Dir.exist?(arg)
+      files.concat(Dir.glob("#{arg}/**/*"))
+
+    else
+      files << arg
+    end
+  end
+
+  files = git_files & files
 end
 
-args.each do |arg|
-  type = MimeMagic.by_path(arg)
+progress = ProgressBar.create(
+  format: "%a %e %b\u{15E7}%i %p%% %t",
+  progress_mark: ' ',
+  remainder_mark: "\u{FF65}",
+  total: files.length
+)
 
-  next if %w{ image application }.include?(type&.mediatype)
+files.each do |file|
+  progress.increment
 
-  puts arg
-  puts type&.mediatype
-  blame = `git blame -e #{Shellwords.escape(arg)}`
+  type = MimeMagic.by_path(file)
+
+  next if %w{ image }.include?(type&.mediatype)
+  next if %w{ application/pdf }.include?(type&.type)
+
+  blame = `git blame -e #{Shellwords.escape(file)}`
 
   lines = blame.lines.map { |line|
     begin
@@ -29,6 +50,8 @@ args.each do |arg|
     end
   }
 end
+
+progress.finish
 
 sum = lines_per_user.values.map(&:to_f).reduce(&:+)
 lines_per_user.sort_by { |k, v| -v }.each do |(email, lines)|
