@@ -23,6 +23,7 @@ function csshXi() {
 { which gln      >& /dev/null } && alias ln='gln'
 { which gmkdir   >& /dev/null } && alias mkdir='gmkdir'
 { which gtac     >& /dev/null } && alias tac='gtac'
+{ which ggrep    >& /dev/null } && alias grep='ggrep --color=auto'
 
 # other aliases
 alias vi='vim'
