@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "shellwords"
+
+def check_rev_parse(retval, rev)
+  if retval != 0
+    puts "ERROR: cannot parse rev #{rev}"
+    exit 1
+  end
+end
+
+def open_url(url)
+  `open #{Shellwords.escape(url)}`
+end
+
+github_project = `git config github.project`.strip
+
+if github_project.empty?
+  puts "ERROR: cannot find the \`github.project\` git config option."
+  puts "Please set this value in your git config to \`\$USER/\$PROJECT\`"
+  puts "as per the GitHub project for this repository."
+  exit 1
+end
+
+options = {}
+
+OptionParser.new do |opts|
+  opts.on("-p", "--print", "Print") { |v| options[:print] = v }
+end.parse!
+
+rev = ARGV.last || "HEAD"
+rev_parse = `git rev-parse --abbrev-ref "#{Shellwords.escape(rev)}" 2> /dev/null`.strip
+check_rev_parse($?, rev)
+
+url = "https://github.com/#{github_project}/compare/#{rev_parse}?expand=1"
+
+if options[:print]
+  puts url
+else
+  open_url(url)
+end
