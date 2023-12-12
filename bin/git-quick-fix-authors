@@ -17,6 +17,11 @@ OptionParser.new do |opts|
   opts.on('--from-name=', 'From name') { |v| options[:from_name] = v }
   opts.on('--to-name=', 'To name') { |v| options[:to_name] = v }
   opts.on('--rev-list=', 'Rev list') { |v| options[:rev_list] = v }
+
+  opts.on_tail('-h', '--help', 'Show help') do
+    puts opts
+    exit
+  end
 end.parse!
 
 unless options.key?(:rev_list)

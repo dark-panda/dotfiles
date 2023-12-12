@@ -1,12 +1,13 @@
-
+__END__
+puts "THIS IS IT"
 require 'rubygems' if RUBY_VERSION < '1.9'
 require 'socket'
 
 begin
-  require 'awesome_print'
+  require 'amazing_print'
 rescue LoadError
-  puts 'AwesomePrint not found'
-end unless ENV['NO_AWESOME_PRINT'] || defined?(AwesomePrint)
+  puts 'AmazingPrint not found'
+end unless ENV['NO_AMAZING_PRINT'] || defined?(AmazingPrint)
 
 begin
   require 'term/ansicolor'

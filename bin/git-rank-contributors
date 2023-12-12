@@ -96,6 +96,8 @@ OptionParser.new do |opts|
   opts.on("-m", "--[no-]use-mailmap", "Use mailmap") { |v| options[:mailmap] = v }
   opts.on("-e", "--show-email", "Display email") { |v| options[:email] = v }
   opts.on("-c", "--commits", "Sort by commits") { |v| options[:commits] = true }
+  opts.on("--since", "Since") { |v| options[:since] = v }
+  opts.on("--before", "Before") { |v| options[:before] = v }
 end.parse!
 
 args = ARGV.collect(&:shellescape)
@@ -113,6 +115,12 @@ else
 end
 
 cmd = %{git log --format="Author: #{contributor_format}" --numstat #{args.join(' ')}}
+
+puts cmd
+
+# cmd += " --since #{options[:since]}" if options[:since]
+# cmd += " --before #{options[:before]}" if options[:before]
+
 author = nil
 
 `#{cmd}`.each_line do |l|
@@ -181,3 +189,16 @@ to_sort.sort_by { |_, c| -c }.each do |author, c|
     more_proc.call("Deletions", lines_deleted)
   end
 end
+
+puts
+
+puts "#{lines.values.sum} total lines changed"
+puts "#{commits.values.sum} total commits"
+
+if options[:more]
+  puts "#{lines_added.values.flatten.sum} total additions"
+  puts "#{lines_deleted.values.flatten.sum} total deletions"
+end
+
+  # puts "#{lines.values.sum} total lines changed"
+  # puts "#{commits.values.sum} total commits"

@@ -49,7 +49,8 @@
 	svn-diff = diff remotes/git-svn
 
 	# log views
-	c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+	# c-log    = !sh -c 'git q-log --cherry-mark HEAD..$@' -
+	c-log    = log --no-merges --graph --pretty=format:'%Cgreen(%ci)%Creset %Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s'
 	d-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aN%Creset -%C(yellow)%d%Creset %s %Cgreen(%ai)%Creset'
 	e-log    = log --no-merges --graph --pretty=format:'%Cred%h%Creset - %C(green)%aE%Creset -%C(yellow)%d%Creset %s %Cgreen(%ar)%Creset'
 	f-log    = whatchanged --graph --parents
@@ -63,7 +64,7 @@
 
 	# grep helpers
 	igrep    = grep --no-index
-	ngrep    = grep -A5 -B5
+	ngrep    = grep -A5 -B5 -n
 
 	# merge helpers
 	ours     = checkout --ours
@@ -82,9 +83,10 @@
 	cleanup  = "!git frune && git prune && git gc --aggressive"
 	commit-amend = commit --amend -C HEAD
 	current  = rev-parse --abbrev-ref HEAD
-	drop-branch = "!sh -c '[ -z "$1" ] || git push origin :$1 && git branch -D $1' -"
+	drop-branch = "!sh -c '[ -z "$1" ] || git push origin :$1 ; git branch -D $1' -"
 	dups     = "!sh -c 'git log --no-merges --graph --pretty=format:'%s' ${1:-HEAD~1000}..HEAD | sort | uniq -c | sort -n' -"
 	experiments = "!f() { git branch | grep 'experiment-'; }; f"
+	features = "!f() { git branch | grep 'feature-'; }; f"
 	frune    = fetch --prune
 	fush     = "!sh -c 'if [ \"`git rev-parse --abbrev-ref HEAD`\" != \"master\" ]; then git push --force-with-lease; else echo \"ERROR: You can''t fush master!\"; fi' -"
 	gone     = "!git branch -vv | grep gone"
@@ -114,14 +116,6 @@
 [hooks "pre-commit"]
 	enabled = true
 	whitespace-rb = true
-[hooks "post-checkout"]
-	enabled = true
-	update-submodules-rb = true
-	check-bundle-rb = true
-[hooks "post-merge"]
-	enabled = true
-	update-submodules-rb = true
-	check-bundle-rb = true
 [filter "media"]
 	required = true
 	clean = git media clean %f

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'date'
 require 'shellwords'
@@ -10,34 +11,35 @@ options = {
 }
 
 OptionParser.new do |opts|
-  opts.on("--start=", "start") { |v| options[:start] = v }
-  opts.on("--end=", "end") { |v| options[:end] = v }
+  opts.on('--start=', 'start') { |v| options[:start] = v }
+  opts.on('--end=', 'end') { |v| options[:end] = v }
 
-  opts.on("--last-month", "last month") do |v|
+  opts.on('--last-month', 'last month') do
     options[:start] = (Date.today << 1).strftime('%Y-%m-01')
     options[:end] = Date.today.strftime('%Y-%m-01')
   end
 
-  opts.on("--this-month", "this month") do |v|
+  opts.on('--this-month', 'this month') do
     options[:start] = Date.today.strftime('%Y-%m-01')
     options[:end] = (Date.today >> 1).strftime('%Y-%m-01')
   end
 
-  opts.on("--last-year", "last year") do |v|
+  opts.on('--last-year', 'last year') do
     options[:start] = "#{Date.today.year - 1}-01-01"
     options[:end] = "#{Date.today.year}-01-01"
   end
 
-  opts.on("--this-year", "this year") do |v|
+  opts.on('--this-year', 'this year') do
     options[:start] = "#{Date.today.year}-01-01"
     options[:end] = "#{Date.today.year + 1}-01-01"
   end
 end.parse!
 
 cmd = <<~EXEC
-  git log master --tags --oneline --date=iso --pretty=format:'%ad %H - %aN -%d %s (%ar)'
+  git log --all --tags --oneline --date=iso --source --pretty=format:'%ad %H - %aN - %S - %s (%ar)'
 EXEC
 
+puts cmd
 output = `#{cmd}`
 
 output
