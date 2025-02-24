@@ -53,11 +53,14 @@ endif
 
 " Switch syntax highlighting on, when the terminal has colors
 " Also switch on highlighting the last used search pattern.
-if &t_Co > 2 || has("gui_running")
-  syntax on
-  set hlsearch
-endif
+"if &t_Co > 2 || has("gui_running")
+"  syntax on
+"  set hlsearch
+"endif
 
+execute pathogen#infect()
+set termguicolors
+syntax on
 filetype plugin indent on
 
 if &term=="xterm"
