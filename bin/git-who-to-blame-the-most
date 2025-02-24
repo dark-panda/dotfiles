@@ -30,26 +30,36 @@ progress = ProgressBar.create(
   total: files.length
 )
 
-files.each do |file|
-  progress.increment
+threads = []
 
-  type = MimeMagic.by_path(file)
+8.times.each do
+  threads << Thread.new do
+    until files.empty?
+      file = files.shift
 
-  next if %w{ image }.include?(type&.mediatype)
-  next if %w{ application/pdf }.include?(type&.type)
+      progress.increment
 
-  blame = `git blame -e #{Shellwords.escape(file)}`
+      type = MimeMagic.by_path(file)
 
-  lines = blame.lines.map { |line|
-    begin
-      email = line[/(<[^@]+@[^>]+>)/]
-      lines_per_user[email] ||= 0
-      lines_per_user[email] += 1
-    rescue ArgumentError
-      # no-op
+      next if %w{ image }.include?(type&.mediatype)
+      next if %w{ application/pdf }.include?(type&.type)
+
+      blame = `git blame -e #{Shellwords.escape(file)}`
+
+      lines = blame.lines.map { |line|
+        begin
+          email = line[/(<[^@]+@[^>]+>)/]
+          lines_per_user[email] ||= 0
+          lines_per_user[email] += 1
+        rescue ArgumentError
+          # no-op
+        end
+      }
     end
-  }
+  end
 end
+
+threads.each(&:join)
 
 progress.finish
 
