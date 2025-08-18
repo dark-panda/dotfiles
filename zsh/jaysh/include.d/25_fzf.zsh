@@ -157,7 +157,7 @@ _fzf_complete_pass() {
   let "stringsize+=1"
 
   _fzf_complete '+m' "$@" < <(
-    command find -L "$pwdir" -name "*.gpg" -print | cut -c "$stringsize"- | sed -e 's/\/\(.*\)\.gpg/\1/'
+    command find -L "$pwdir" -name "*.gpg" -print | cut -c "$stringsize"- | sed -e 's/\(.*\)\.gpg/\1/'
   )
 }
 
