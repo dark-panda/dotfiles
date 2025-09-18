@@ -20,7 +20,9 @@ files = Dir.glob([
   '**/*{_BACKUP_,_BASE_,_LOCAL_,_REMOTE_}*',
   '**/{*~HEAD,*~HEAD_*}'
 ]).reject do |file|
-  if git_files.include?(file)
+  if !File.file?(file)
+    true
+  elsif git_files.include?(file)
     true
   elsif file =~ /_(BACKUP|BASE|LOCAL|REMOTE)_/
     file !~ /_(BACKUP|BASE|LOCAL|REMOTE)_\d+(\..+)?$/
