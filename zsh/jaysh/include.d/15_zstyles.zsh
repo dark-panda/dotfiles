@@ -19,11 +19,14 @@ if [[ $? = 0 ]]; then
   zstyle ':vcs_info:*'              check-for-changes true
   zstyle ':vcs_info:*'              get-revision      true
 
-  precmd() {
+  autoload -Uz add-zsh-hook
+
+  _vcs_info_precmd() {
     psvar=()
     vcs_info
     [[ -n $vcs_info_msg_0_ ]] && psvar[1]=" $vcs_info_msg_0_"
   }
+  add-zsh-hook precmd _vcs_info_precmd
 
   PROMPT=$'%F{white}[%n@%f%F{$HOST_COLOR}%m%f %c]${vcs_info_msg_0_}%b%f%# '
 else
